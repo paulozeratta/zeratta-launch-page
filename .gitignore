@@ -20,6 +20,9 @@
 /leads*.csv
 /leads*.json
 
+# Logs de ferramenta que rodou com o cwd aqui dentro por engano
+*.log
+
 # Sujeira de sistema operacional e editor
 Thumbs.db
 .DS_Store
