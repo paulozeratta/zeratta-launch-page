@@ -1,0 +1,26 @@
+# Segredos. Nunca versionados, em nenhuma circunstância.
+# Este repositório é PÚBLICO: qualquer coisa commitada aqui fica visível
+# na internet e permanece no histórico do git mesmo se removida depois.
+.env
+.env.*
+!.env.example
+
+# Imagens de origem em alta, pesadas. Só a versão otimizada em
+# assets/images/ é servida.
+/fonte/
+*.psd
+*.ai
+*.tif
+*.tiff
+
+# Cópia de trabalho local (o arquivo publicado é index.html)
+/preview.html
+
+# Exportações de leads, que contêm dado pessoal de terceiros
+/leads*.csv
+/leads*.json
+
+# Sujeira de sistema operacional e editor
+Thumbs.db
+.DS_Store
+desktop.ini

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>ZERATTA · Lista de espera</title>
+<meta name="description" content="A lista de espera da Zeratta está aberta. Acesso antes da abertura ao público." />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="ZERATTA" />
+<meta property="og:title" content="ZERATTA" />
+<meta property="og:description" content="Antes de todo mundo." />
+<meta property="og:url" content="https://zeratta.com/" />
+<meta property="og:image" content="https://zeratta.com/assets/images/og-zeratta.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="pt_BR" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<link rel="canonical" href="https://zeratta.com/" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<meta name="theme-color" content="#FFFFFF" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@200;300;400;500&display=swap" rel="stylesheet" />
+
+<style>
+  /* ============================================================
+     ZERATTA · página de lançamento
+     Metade esquerda: a fotografia. Metade direita: o convite.
+     A costura entre as duas é seca de propósito, sem gutter e
+     sem sombra: é o único gesto forte da página.
+     ============================================================ */
+
+  :root{
+    color-scheme: light;          /* impede o navegador de escurecer os campos */
+
+    --paper:#FFFFFF;
+    --ink:#0E0E0E;
+    --ink-soft:#45423C;
+    --muted:#6E6B64;
+    --line:#E2E0DA;
+    --line-strong:#CFCBC2;
+    --bordeaux:#1A0709;
+    --bordeaux-lift:#2C0F13;
+    --gold:#B2954E;
+    --erro:#B3261E;
+
+    --sans:"Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --ease:cubic-bezier(.22,1,.36,1);
+    --campo:3.4rem;               /* altura de campo e botão, iguais */
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  /* O atributo hidden só vale display:none na folha do navegador, e
+     qualquer display declarado aqui ganha dele. Sem este !important,
+     .form{display:grid} mantém o formulário na tela depois do envio. */
+  [hidden]{display:none !important}
+
+  body{
+    font-family:var(--sans);
+    color:var(--ink-soft);
+    background:var(--paper);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  img{display:block;max-width:100%}
+
+  /* ---------- Estrutura ---------- */
+
+  .split{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    min-height:100vh;
+    min-height:100dvh;
+  }
+
+  /* ---------- A fotografia ---------- */
+
+  .visual{
+    position:sticky;
+    top:0;
+    align-self:start;
+    height:100vh;
+    height:100dvh;
+    overflow:hidden;
+    background:var(--bordeaux);   /* segura a cor enquanto a imagem carrega */
+  }
+  .visual img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center;
+  }
+
+  /* ---------- O painel ---------- */
+
+  .panel{
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+    min-height:100dvh;
+    padding:clamp(1.75rem,3vw,3.25rem) clamp(1.5rem,4vw,4.5rem);
+    background:var(--paper);
+  }
+
+  /* Marca, conteúdo e rodapé dividem UMA coluna centralizada. Sem
+     isso, num ultrawide o rodapé se espalha por 1700px enquanto o
+     formulário ocupa 480px, e os três param de parecer o mesmo
+     objeto. O limite superior é o que segura a página em 3440px. */
+  .brand,
+  .content,
+  .foot{width:100%;max-width:31rem;margin-inline:auto}
+
+  /* Piso de respiro. As margens automáticas de .content zeram quando
+     o conteúdo cresce, e sem este piso o wordmark encosta no título. */
+  .brand{display:flex;align-items:center;gap:.72rem;margin-bottom:clamp(1.75rem,4vh,2.75rem)}
+  .brand .mark{height:30px;width:auto}
+  .brand .mark path{fill:var(--ink)}
+  .brand .nome{
+    font-size:.78rem;
+    font-weight:300;
+    letter-spacing:.38em;
+    color:var(--ink);
+    /* o espaçamento cria um vão fantasma depois do último A */
+    margin-right:-.38em;
+  }
+
+  .content{
+    margin-block:auto;
+    /* sobe o bloco: centro matemático lê como baixo demais */
+    padding-bottom:clamp(1rem,4vh,2.5rem);
+  }
+
+  h1{
+    font-weight:300;
+    font-size:clamp(2.3rem,1.15rem + 2.7vw,3.35rem);
+    line-height:1.04;
+    letter-spacing:-.025em;
+    color:var(--ink);
+  }
+
+  .lede{
+    margin-top:1.15rem;
+    max-width:34ch;
+    font-size:.95rem;
+    line-height:1.6;
+  }
+
+  /* ---------- Os três itens ---------- */
+
+  .perks{list-style:none;margin-top:1.7rem;display:grid;gap:.75rem}
+  .perks li{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:.72rem;
+    align-items:start;
+    font-size:.9rem;
+    line-height:1.5;
+  }
+  .perks .tick{width:15px;height:15px;margin-top:.2em;color:var(--gold);flex:none}
+
+  /* ---------- Formulário ---------- */
+
+  .form{margin-top:2rem;display:grid;gap:.6rem}
+
+  .rotulo{
+    position:absolute;width:1px;height:1px;
+    padding:0;overflow:hidden;
+    clip:rect(0 0 0 0);clip-path:inset(50%);
+    white-space:nowrap;border:0;
+  }
+
+  /* Armadilha para robô. Invisível, fora da ordem de tabulação. */
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+  .form input,
+  .form select{
+    width:100%;
+    height:var(--campo);
+    padding:0 1.05rem;
+    font-family:inherit;
+    font-size:.88rem;
+    color:var(--ink);
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:3px;
+    transition:border-color .35s var(--ease), box-shadow .35s var(--ease);
+  }
+
+  /* O print usa caixa alta espaçada. Vale para o texto de apoio,
+     nunca para o que a pessoa digita: ninguém se chama PAULO. */
+  .form input::placeholder{
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    font-size:.72rem;
+    color:var(--muted);
+    opacity:1;
+  }
+  /* Enquanto nada foi escolhido, o select é :invalid e se veste de
+     marcador de lugar. Escolhido, volta ao texto normal. */
+  .form select:invalid{
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    font-size:.72rem;
+    color:var(--muted);
+  }
+  .form select{
+    appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%236E6B64' stroke-width='1.3' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat:no-repeat;
+    background-position:right 1.1rem center;
+    padding-right:2.6rem;
+    cursor:pointer;
+  }
+  .form select option{
+    text-transform:none;
+    letter-spacing:normal;
+    font-size:.88rem;
+    color:var(--ink);
+  }
+
+  .form input:focus,
+  .form select:focus{
+    outline:none;
+    border-color:var(--gold);
+    box-shadow:0 0 0 2px rgba(178,149,78,.22);
+  }
+  .form input[aria-invalid="true"],
+  .form select[aria-invalid="true"]{border-color:var(--erro)}
+
+  .cta{
+    height:var(--campo);
+    margin-top:.35rem;
+    font-family:inherit;
+    font-size:.75rem;
+    font-weight:500;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:#FFFFFF;
+    background:var(--bordeaux);
+    border:0;
+    border-radius:3px;
+    cursor:pointer;
+    transition:background-color .4s var(--ease), opacity .3s var(--ease);
+  }
+  .cta:hover{background:var(--bordeaux-lift)}
+  .cta:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .cta[disabled]{opacity:.5;cursor:default}
+
+  .erro{
+    min-height:1.15rem;
+    font-size:.75rem;
+    line-height:1.5;
+    color:var(--erro);
+  }
+  .erro:empty{min-height:0}
+
+  /* ---------- Confirmação ---------- */
+
+  .pronto{margin-top:2rem}
+  .pronto h2{
+    font-size:1.35rem;
+    font-weight:300;
+    letter-spacing:-.015em;
+    color:var(--ink);
+  }
+  .pronto p{margin-top:.7rem;font-size:.9rem;line-height:1.6;max-width:34ch}
+  .pronto .risco{
+    width:34px;height:1px;
+    margin-bottom:1.35rem;
+    background:var(--gold);
+  }
+
+  /* ---------- Rodapé legal e institucional ---------- */
+
+  .legal{margin-top:1.2rem;font-size:.7rem;line-height:1.65;color:var(--muted)}
+  .legal a{
+    color:var(--ink-soft);
+    text-decoration:none;
+    border-bottom:1px solid var(--line-strong);
+    transition:color .35s var(--ease), border-color .35s var(--ease);
+  }
+  .legal a:hover{color:var(--ink);border-bottom-color:var(--gold)}
+  .legal a:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:1px}
+
+  .foot{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:1rem;
+    padding-top:2rem;
+    font-size:.68rem;
+    color:var(--muted);
+  }
+  .social{display:flex;align-items:center;gap:.55rem}
+  .social a{
+    display:inline-flex;
+    color:var(--muted);
+    transition:color .35s var(--ease);
+  }
+  .social a:hover{color:var(--ink)}
+  .social a:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
+  .social svg{width:15px;height:15px}
+
+  /* ---------- Um único gesto no carregamento ---------- */
+
+  @keyframes assenta{from{transform:scale(1.04)}to{transform:scale(1)}}
+  @keyframes sobe{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+  .visual img{animation:assenta 1.6s var(--ease) both}
+  .brand{animation:sobe .9s var(--ease) .05s both}
+  .content{animation:sobe .9s var(--ease) .16s both}
+  .foot{animation:sobe .9s var(--ease) .28s both}
+
+  /* ---------- Empilhado ---------- */
+
+  @media (max-width:1023px){
+    .split{grid-template-columns:1fr;min-height:0}
+    .visual{position:static;height:38vh;height:38dvh;min-height:240px}
+    /* A faixa é larga e a foto é retrato, então o corte é severo.
+       Descer o enquadramento põe o cartão no centro e evita cortar
+       o letreiro da tampa pela metade. */
+    .visual img{object-position:center 60%}
+    .panel{min-height:0;padding-block:clamp(2rem,5vw,3rem)}
+    /* Empilhado, a coluna pode respirar um pouco mais que no painel. */
+    .brand,.content,.foot{max-width:34rem}
+    /* O respiro agora vem do margin-bottom de .brand, que vale em
+       qualquer largura. Aqui só zeramos as margens automáticas. */
+    .content{margin-block:0;padding-bottom:0}
+    .foot{padding-top:2.5rem}
+  }
+
+  @media (max-width:560px){
+    .visual{height:32vh;height:32dvh;min-height:200px}
+    .panel{padding-inline:1.5rem}
+    .foot{flex-direction:column;align-items:flex-start;gap:1rem}
+  }
+
+  /* ---------- Movimento reduzido ---------- */
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+      animation-duration:.01ms !important;
+      animation-iteration-count:1 !important;
+      transition-duration:.01ms !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<main class="split">
+
+  <!-- ============ A fotografia ============ -->
+  <figure class="visual">
+    <img src="assets/images/embalagem-zeratta.webp"
+         width="1145" height="1374"
+         fetchpriority="high"
+         alt="Caixa Zeratta aberta sobre veludo bordô, com papel de seda, cartão da marca e fitas gravadas." />
+  </figure>
+
+  <!-- ============ O convite ============ -->
+  <section class="panel">
+
+    <header class="brand">
+      <svg class="mark" viewBox="0 0 2000 2000" role="img" aria-label="Símbolo ZERATTA, a águia">
+        <path d="M1187.28,827.64c44.8-12.78,79.62-26.33,102.12-35.81,19.22-8.09,93.18-40.04,165.77-68.96,23.4-9.32,48.19-18.8,72.94-9.28,19.41,7.47,21.93,18.27,42.44,27.85,30.65,14.32,50.71.43,83.37,2.02,68.04,3.32,116.77,70.1,113.58,74.9-2.14,3.22-29.92-18.09-79.72-18.09h0c-22.83,7.15-41.29,16.94-56.22,27.37-132.14,92.29-104.12,315.48-100.79,339.5-16.68-20.12-36.8-50.12-49.07-90.18-20.39-66.59-12.1-167.99,30.5-225.45,3.3-4.46,9.02-11.61,6.63-15.91-8.48-15.32-106.12,16.18-176.38,53.05-41.21,21.62-98.46,58.45-156.49,122.01.42-15.63,3-38.43,13.26-63.66,17.26-42.42,46.35-67.32,61-78.24-24.31-13.7-48.63-27.41-72.94-41.11Z"/>
+        <path d="M677.6,1909.59c37.09-17.77,96.8-46.02,171.08-79.57,166.49-75.2,247.68-105.4,344.08-170.1,37.19-24.96,92.8-65.9,145.22-133.09,0,0,12.53-16.47,25.26-34.98,74.96-108.98,107.26-217.29,122.01-294.41,6.27,34.94,12.3,89.8,2.65,155.16-27.21,184.26-155.71,293.94-188.32,320.94-20.79,17.21-65.08,51.23-232.08,115.38-93.36,35.86-225.24,81.21-389.9,120.68Z"/>
+        <path d="M396.69,90.41c8.24,53.12,23.71,127.98,55.15,213.4,16.78,45.59,83.63,217.9,295.86,444.03,107.86,114.92,286.93,279.61,553.53,424.46-22.11-1.6-41.87-3.51-59.3-5.54-26.87-3.13-48.19-6.52-63.99-9.44-22.67-4.19-48.44-14.59-62.85-22.22-395.18-209.23-517.98-367.55-517.98-367.55-159.53-212.43-190.42-478.45-197.16-564.34-3.67-46.8-3.81-85.86-3.25-112.8Z"/>
+        <path d="M235.66,946.34c5.41-6.57,82.05,52.3,148.53,96.37,47.32,31.37,91.68,58.14,138.95,82.69,142.51,74.03,265.62,111.71,351.74,135.69,67.88,18.9,110.84,30.65,173.29,38.02,86.34,10.18,159.26,5.99,210.42,0-60.35,36.51-113.76,49.21-146.77,54.29-50.23,7.73-91.85,3.77-135.26-.36-41.11-3.91-71.77-10.29-112.28-18.57-22.51-4.6-64.91-13.79-118.47-29.18-100.46-28.85-173.17-56.95-251.09-94.6-89.93-43.46-135.37-65.99-158.26-105.21-12.61-21.61-18.86-41.2-44.21-82.22-31.41-50.84-59.89-72.91-56.58-76.92Z"/>
+        <path d="M232.97,518.44c7.97-6.63,76.26,86.1,137.55,157.96,43.62,51.15,85.29,95.85,130.86,138.6,137.38,128.91,263.76,208.02,352.87,260.43,46.39,27.28,102.52,59.24,182.3,92.89,89.04,37.56,168.06,60.16,228,74.19-31.33,4.25-58.3,6.26-79.47,7.24,0,0-63.74,2.95-105.93-4.11-.34-.06-5.01-.85-5.01-.84,0,0,5.01.86,5.01.84.02-.09-67.12-4.25-138.37-30.17-25.68-9.35-55.71-22.93-74.83-31.54-13.86-6.25-28.85-13.25-45.08-21.2-23.78-11.65-68.41-34.25-123.7-67.42-103.69-62.22-176.62-116.11-252.56-183.13-87.65-77.36-131.76-117.14-145.81-171.41-7.74-29.9-8.97-55.63-25.23-112.77-20.15-70.82-45.47-105.51-40.61-109.55Z"/>
+        <path d="M335.56,1185.94c5.15-6.66,61.16,37.13,143.23,80.46,168.86,89.15,324.58,111.18,412.89,122.89,75.24,9.98,176.86,17.11,297.07,7.07-12.3,8.5-30.55,20.03-53.93,30.94-40.97,19.13-111.09,42.62-251.09,29.18-85.91-8.25-242.77-23.31-398.74-129.08-86.45-58.63-155.55-133.54-149.42-141.46Z"/>
+        <path d="M506.2,1403.44c93.62,38.67,175.8,62.85,239.3,78.39,140.16,34.3,222.36,34.58,250.5,34.19,18.22-.26,33.31-1.08,43.62-1.77,5.81-.39,9.55-.79,20.63-1.77,17.25-1.52,31.12-2.66,40.08-3.39-29.5,15.23-72.43,33.55-126.72,44.35-15.61,3.11-65.83,12.3-131.98,7.73-91.12-6.3-154.55-34.71-206.87-58.14-63.92-28.63-96.09-53.97-119.5-86.11-4.16-5.71-7.25-10.55-9.06-13.48Z"/>
+        <path d="M661.41,1580.2c40.79,14.01,94.44,27.98,158.31,33.33,90.26,7.57,165.45-5.03,216.53-17.96-20.14,12.35-48.94,27.78-85.53,40.45-28.66,9.92-54.71,18.94-89.68,20.46-69.52,3.03-122.52-25.8-147.42-39.76-23.31-13.06-40.81-26.73-52.21-36.53Z"/>
+        <path d="M752.05,1686.97c18.79,6.45,43.5,12.89,72.92,15.35,41.57,3.49,76.21-2.32,99.74-8.27-9.28,5.69-22.54,12.8-39.4,18.63-13.2,4.57-25.2,8.72-41.31,9.43-32.02,1.4-56.44-11.89-67.91-18.31-10.74-6.02-18.8-12.31-24.05-16.83Z"/>
+      </svg>
+      <span class="nome">ZERATTA</span>
+    </header>
+
+    <div class="content">
+
+      <h1>Antes de todo mundo.</h1>
+      <p class="lede">A lista de espera da Zeratta está aberta. Quem entra agora recebe:</p>
+
+      <ul class="perks">
+        <li>
+          <svg class="tick" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="7.1" stroke="currentColor" stroke-width="1.1"/>
+            <path d="M5 8.2l2.1 2.1L11 6.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Acesso 24 horas antes da abertura ao público</span>
+        </li>
+        <li>
+          <svg class="tick" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="7.1" stroke="currentColor" stroke-width="1.1"/>
+            <path d="M5 8.2l2.1 2.1L11 6.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Uma condição reservada a quem chegou primeiro</span>
+        </li>
+        <li>
+          <svg class="tick" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="8" cy="8" r="7.1" stroke="currentColor" stroke-width="1.1"/>
+            <path d="M5 8.2l2.1 2.1L11 6.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>A revelação na sua caixa de entrada, antes do anúncio</span>
+        </li>
+      </ul>
+
+      <form class="form" id="form" novalidate>
+        <div class="hp" aria-hidden="true">
+          <label for="hp">Deixe este campo em branco</label>
+          <input type="text" id="hp" name="hp" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div>
+          <label class="rotulo" for="nome">Nome</label>
+          <input type="text" id="nome" name="nome" placeholder="Nome"
+                 autocomplete="given-name" maxlength="80" required />
+        </div>
+
+        <div>
+          <label class="rotulo" for="email">Seu e-mail</label>
+          <input type="email" id="email" name="email" placeholder="Seu e-mail"
+                 autocomplete="email" maxlength="120" required
+                 inputmode="email" spellcheck="false" />
+        </div>
+
+        <div>
+          <label class="rotulo" for="pais">Seu país</label>
+          <select id="pais" name="pais" autocomplete="country" required>
+            <option value="" selected disabled>Seu país</option>
+          </select>
+        </div>
+
+        <p class="erro" id="erro" role="alert"></p>
+
+        <button type="submit" class="cta" id="cta">Reservar meu lugar</button>
+      </form>
+
+      <p class="legal" id="legal">
+        Seus dados são tratados conforme nossa
+        <a href="politica-de-privacidade.html">Política de Privacidade</a>.
+        Você pode sair da lista quando quiser pelo e-mail
+        <a href="mailto:sac@zeratta.com">sac@zeratta.com</a>.
+      </p>
+
+      <div class="pronto" id="pronto" hidden>
+        <div class="risco"></div>
+        <h2>Seu lugar está reservado.</h2>
+        <p>Você vai saber antes. Fique de olho na sua caixa de entrada, inclusive na pasta de promoções.</p>
+      </div>
+
+    </div>
+
+    <footer class="foot">
+      <small>© 2026 ZERATTA. Todos os direitos reservados.</small>
+      <span class="social">
+        <a href="https://instagram.com/zeratta" target="_blank" rel="noopener noreferrer" aria-label="Zeratta no Instagram">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="2.5" y="2.5" width="19" height="19" rx="5.4" stroke="currentColor" stroke-width="1.7"/>
+            <circle cx="12" cy="12" r="4.4" stroke="currentColor" stroke-width="1.7"/>
+            <circle cx="17.6" cy="6.4" r="1.25" fill="currentColor"/>
+          </svg>
+        </a>
+      </span>
+    </footer>
+
+  </section>
+
+</main>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ------------------------------------------------------------
+     Endpoint do Apps Script.
+     Trocar pela URL do Web App publicado. Ver o passo a passo em
+     integracao/apps-script/README.md
+     ------------------------------------------------------------ */
+  var ENDPOINT = "";
+
+  var form   = document.getElementById("form");
+  var cta    = document.getElementById("cta");
+  var erro   = document.getElementById("erro");
+  var pronto = document.getElementById("pronto");
+  var legal  = document.getElementById("legal");
+  var select = document.getElementById("pais");
+
+  /* ---------- Países ----------
+     Ordenados em tempo de execução com a colação do português, que
+     é o que põe Áustria depois de Austrália e Índia depois de Ilhas. */
+  var PAISES = "AF:Afeganistão|ZA:África do Sul|AL:Albânia|DE:Alemanha|AD:Andorra|AO:Angola|AG:Antígua e Barbuda|SA:Arábia Saudita|DZ:Argélia|AR:Argentina|AM:Armênia|AU:Austrália|AT:Áustria|AZ:Azerbaijão|BS:Bahamas|BH:Bahrein|BD:Bangladesh|BB:Barbados|BE:Bélgica|BZ:Belize|BJ:Benin|BY:Bielorrússia|BO:Bolívia|BA:Bósnia e Herzegovina|BW:Botsuana|BR:Brasil|BN:Brunei|BG:Bulgária|BF:Burquina Faso|BI:Burundi|BT:Butão|CV:Cabo Verde|KH:Camboja|CM:Camarões|CA:Canadá|QA:Catar|KZ:Cazaquistão|TD:Chade|CL:Chile|CN:China|CY:Chipre|SG:Cingapura|CO:Colômbia|KM:Comores|CG:Congo|CD:Congo (RDC)|KP:Coreia do Norte|KR:Coreia do Sul|CI:Costa do Marfim|CR:Costa Rica|HR:Croácia|CU:Cuba|DK:Dinamarca|DJ:Djibuti|DM:Dominica|EG:Egito|SV:El Salvador|AE:Emirados Árabes Unidos|EC:Equador|ER:Eritreia|SK:Eslováquia|SI:Eslovênia|ES:Espanha|US:Estados Unidos|EE:Estônia|SZ:Eswatini|ET:Etiópia|FJ:Fiji|PH:Filipinas|FI:Finlândia|FR:França|GA:Gabão|GM:Gâmbia|GH:Gana|GE:Geórgia|GD:Granada|GR:Grécia|GT:Guatemala|GY:Guiana|GN:Guiné|GW:Guiné-Bissau|GQ:Guiné Equatorial|HT:Haiti|HN:Honduras|HU:Hungria|YE:Iêmen|MH:Ilhas Marshall|SB:Ilhas Salomão|IN:Índia|ID:Indonésia|IR:Irã|IQ:Iraque|IE:Irlanda|IS:Islândia|IL:Israel|IT:Itália|JM:Jamaica|JP:Japão|JO:Jordânia|KI:Kiribati|KW:Kuwait|LA:Laos|LS:Lesoto|LV:Letônia|LB:Líbano|LR:Libéria|LY:Líbia|LI:Liechtenstein|LT:Lituânia|LU:Luxemburgo|MK:Macedônia do Norte|MG:Madagascar|MY:Malásia|MW:Malaui|MV:Maldivas|ML:Mali|MT:Malta|MA:Marrocos|MU:Maurício|MR:Mauritânia|MX:México|MM:Mianmar|FM:Micronésia|MZ:Moçambique|MD:Moldávia|MC:Mônaco|MN:Mongólia|ME:Montenegro|NA:Namíbia|NR:Nauru|NP:Nepal|NI:Nicarágua|NE:Níger|NG:Nigéria|NO:Noruega|NZ:Nova Zelândia|OM:Omã|NL:Países Baixos|PW:Palau|PS:Palestina|PA:Panamá|PG:Papua-Nova Guiné|PK:Paquistão|PY:Paraguai|PE:Peru|PL:Polônia|PT:Portugal|KE:Quênia|KG:Quirguistão|GB:Reino Unido|CF:República Centro-Africana|DO:República Dominicana|CZ:República Tcheca|RO:Romênia|RW:Ruanda|RU:Rússia|WS:Samoa|SM:San Marino|LC:Santa Lúcia|KN:São Cristóvão e Névis|ST:São Tomé e Príncipe|VC:São Vicente e Granadinas|SC:Seicheles|SN:Senegal|SL:Serra Leoa|RS:Sérvia|SY:Síria|SO:Somália|LK:Sri Lanka|SD:Sudão|SS:Sudão do Sul|SE:Suécia|CH:Suíça|SR:Suriname|TH:Tailândia|TJ:Tajiquistão|TZ:Tanzânia|TL:Timor-Leste|TG:Togo|TO:Tonga|TT:Trinidad e Tobago|TN:Tunísia|TM:Turcomenistão|TR:Turquia|TV:Tuvalu|UA:Ucrânia|UG:Uganda|UY:Uruguai|UZ:Uzbequistão|VU:Vanuatu|VA:Vaticano|VE:Venezuela|VN:Vietnã|ZM:Zâmbia|ZW:Zimbábue";
+
+  (function montaPaises(){
+    var lista = PAISES.split("|").map(function(par){
+      var corte = par.indexOf(":");
+      return { cod: par.slice(0, corte), nome: par.slice(corte + 1) };
+    });
+    lista.sort(function(a, b){ return a.nome.localeCompare(b.nome, "pt-BR"); });
+
+    var frag = document.createDocumentFragment();
+    lista.forEach(function(p){
+      var op = document.createElement("option");
+      op.value = p.cod;
+      op.textContent = p.nome;
+      frag.appendChild(op);
+    });
+    select.appendChild(frag);
+  })();
+
+  /* ---------- Validação ----------
+     Conveniência para quem preenche, nunca segurança: o servidor
+     revalida tudo. Ver integracao/apps-script/codigo.gs */
+  var RE_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  function limpaErro(){
+    erro.textContent = "";
+    ["nome", "email", "pais"].forEach(function(id){
+      document.getElementById(id).removeAttribute("aria-invalid");
+    });
+  }
+
+  function acusa(campo, mensagem){
+    erro.textContent = mensagem;
+    if (campo){
+      campo.setAttribute("aria-invalid", "true");
+      campo.focus();
+    }
+    return false;
+  }
+
+  var MENSAGENS = {
+    duplicado:          "Este e-mail já está na lista. Seu lugar está garantido.",
+    email_invalido:     "Confira o e-mail: parece faltar alguma coisa.",
+    campos_obrigatorios:"Preencha nome, e-mail e país para continuar.",
+    rede:               "Não conseguimos enviar agora. Confira sua conexão e tente de novo.",
+    servidor:           "Algo falhou do nosso lado. Tente de novo em instantes.",
+    nao_configurado:    "O formulário ainda não foi conectado. Escreva para sac@zeratta.com."
+  };
+
+  form.addEventListener("submit", function(ev){
+    ev.preventDefault();
+    limpaErro();
+
+    var nome  = document.getElementById("nome");
+    var email = document.getElementById("email");
+    var hp    = document.getElementById("hp");
+
+    /* Robô preencheu o campo escondido. Finge sucesso e não envia:
+       dizer "você é um robô" só ensina o robô a passar da próxima. */
+    if (hp.value !== ""){ sucesso(); return; }
+
+    if (nome.value.trim() === "")          return acusa(nome,  MENSAGENS.campos_obrigatorios);
+    if (!RE_EMAIL.test(email.value.trim())) return acusa(email, MENSAGENS.email_invalido);
+    if (select.value === "")                return acusa(select, MENSAGENS.campos_obrigatorios);
+
+    if (ENDPOINT === ""){
+      console.error("[Zeratta] ENDPOINT vazio em index.html. Ver integracao/apps-script/README.md");
+      return acusa(null, MENSAGENS.nao_configurado);
+    }
+
+    enviando(true);
+
+    /* text/plain evita o preflight CORS, que o Apps Script não
+       responde de forma confiável. O corpo continua sendo JSON. */
+    fetch(ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({
+        nome:   nome.value.trim(),
+        email:  email.value.trim().toLowerCase(),
+        pais:   select.value,
+        origem: location.hostname,
+        hp:     ""
+      })
+    })
+    .then(function(r){
+      if (!r.ok) throw new Error("http " + r.status);
+      return r.json();
+    })
+    .then(function(dados){
+      if (dados && dados.ok){ sucesso(); return; }
+      enviando(false);
+      acusa(null, MENSAGENS[dados && dados.erro] || MENSAGENS.servidor);
+    })
+    .catch(function(e){
+      console.error("[Zeratta]", e);
+      enviando(false);
+      acusa(null, MENSAGENS.rede);
+    });
+  });
+
+  function enviando(estado){
+    cta.disabled = estado;
+    cta.textContent = estado ? "Enviando" : "Reservar meu lugar";
+  }
+
+  function sucesso(){
+    form.hidden   = true;
+    legal.hidden  = true;
+    pronto.hidden = false;
+    pronto.querySelector("h2").setAttribute("tabindex", "-1");
+    pronto.querySelector("h2").focus();
+  }
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+# Normaliza fim de linha: LF no repositório, nativo no working tree.
+# Evita ruído de CRLF entre Windows, macOS e CI.
+* text=auto eol=lf
+
+# Scripts que precisam de LF mesmo em Windows
+*.sh   text eol=lf
+
+# Scripts nativos do Windows
+*.bat  text eol=crlf
+*.cmd  text eol=crlf
+*.ps1  text eol=crlf
+
+# Google Apps Script é JavaScript, e o editor do Google serve LF
+*.gs   text eol=lf
+
+# Binários, nunca normalizar
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.webp binary
+*.ico  binary
+*.pdf  binary
+*.woff  binary
+*.woff2 binary
+*.ttf  binary
+*.otf  binary
+*.mp4  binary
+*.webm binary
+*.zip  binary

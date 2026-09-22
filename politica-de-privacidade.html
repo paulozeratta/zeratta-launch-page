@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Política de Privacidade · ZERATTA</title>
+<meta name="description" content="Como a Zeratta trata os dados de quem entra na lista de espera." />
+<meta name="robots" content="noindex, follow" />
+
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<meta name="theme-color" content="#FFFFFF" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@200;300;400;500&display=swap" rel="stylesheet" />
+
+<style>
+  :root{
+    color-scheme: light;
+    --paper:#FFFFFF;
+    --ink:#0E0E0E;
+    --ink-soft:#45423C;
+    --muted:#6E6B64;
+    --line:#E2E0DA;
+    --line-strong:#CFCBC2;
+    --gold:#B2954E;
+    --sans:"Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --ease:cubic-bezier(.22,1,.36,1);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  body{
+    font-family:var(--sans);
+    color:var(--ink-soft);
+    background:var(--paper);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  .folha{
+    max-width:34rem;
+    margin-inline:auto;
+    padding:clamp(2.5rem,7vh,5rem) clamp(1.5rem,5vw,2rem) clamp(3.5rem,9vh,6rem);
+  }
+
+  .brand{display:flex;align-items:center;gap:.72rem;margin-bottom:clamp(3rem,8vh,4.5rem)}
+  .brand .mark{height:24px;width:auto}
+  .brand .mark path{fill:var(--ink)}
+  .brand .nome{
+    font-size:.74rem;font-weight:300;letter-spacing:.38em;
+    color:var(--ink);margin-right:-.38em;
+  }
+
+  h1{
+    font-size:clamp(1.9rem,1.2rem + 1.8vw,2.5rem);
+    font-weight:300;line-height:1.1;letter-spacing:-.025em;
+    color:var(--ink);
+  }
+  .atualizado{margin-top:.85rem;font-size:.72rem;letter-spacing:.06em;color:var(--muted)}
+
+  .resumo{
+    margin-top:2rem;padding:1.35rem 1.5rem;
+    border-left:2px solid var(--gold);
+    background:#FBFAF8;
+    font-size:.92rem;line-height:1.65;
+  }
+
+  h2{
+    margin-top:2.75rem;
+    font-size:1rem;font-weight:500;letter-spacing:-.005em;
+    color:var(--ink);
+  }
+
+  p, li{font-size:.92rem;line-height:1.7}
+  p{margin-top:.85rem}
+
+  ul{margin-top:.85rem;padding-left:1.1rem}
+  li{margin-top:.45rem}
+  li::marker{color:var(--gold)}
+
+  .tabela{width:100%;border-collapse:collapse;margin-top:1.1rem;font-size:.88rem}
+  .tabela th, .tabela td{
+    text-align:left;vertical-align:top;
+    padding:.7rem .9rem .7rem 0;
+    border-bottom:1px solid var(--line);
+    line-height:1.55;
+  }
+  .tabela th{font-weight:500;color:var(--ink);width:38%}
+
+  a{
+    color:var(--ink);text-decoration:none;
+    border-bottom:1px solid var(--line-strong);
+    transition:color .35s var(--ease), border-color .35s var(--ease);
+  }
+  a:hover{border-bottom-color:var(--gold)}
+  a:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:1px}
+
+  .voltar{
+    display:inline-block;margin-top:3.5rem;
+    font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted);border-bottom-color:transparent;
+  }
+  .voltar:hover{color:var(--ink);border-bottom-color:var(--gold)}
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{transition-duration:.01ms !important}
+  }
+</style>
+</head>
+<body>
+
+<main class="folha">
+
+  <header class="brand">
+    <svg class="mark" viewBox="0 0 2000 2000" role="img" aria-label="Símbolo ZERATTA, a águia">
+      <path d="M1187.28,827.64c44.8-12.78,79.62-26.33,102.12-35.81,19.22-8.09,93.18-40.04,165.77-68.96,23.4-9.32,48.19-18.8,72.94-9.28,19.41,7.47,21.93,18.27,42.44,27.85,30.65,14.32,50.71.43,83.37,2.02,68.04,3.32,116.77,70.1,113.58,74.9-2.14,3.22-29.92-18.09-79.72-18.09h0c-22.83,7.15-41.29,16.94-56.22,27.37-132.14,92.29-104.12,315.48-100.79,339.5-16.68-20.12-36.8-50.12-49.07-90.18-20.39-66.59-12.1-167.99,30.5-225.45,3.3-4.46,9.02-11.61,6.63-15.91-8.48-15.32-106.12,16.18-176.38,53.05-41.21,21.62-98.46,58.45-156.49,122.01.42-15.63,3-38.43,13.26-63.66,17.26-42.42,46.35-67.32,61-78.24-24.31-13.7-48.63-27.41-72.94-41.11Z"/>
+      <path d="M677.6,1909.59c37.09-17.77,96.8-46.02,171.08-79.57,166.49-75.2,247.68-105.4,344.08-170.1,37.19-24.96,92.8-65.9,145.22-133.09,0,0,12.53-16.47,25.26-34.98,74.96-108.98,107.26-217.29,122.01-294.41,6.27,34.94,12.3,89.8,2.65,155.16-27.21,184.26-155.71,293.94-188.32,320.94-20.79,17.21-65.08,51.23-232.08,115.38-93.36,35.86-225.24,81.21-389.9,120.68Z"/>
+      <path d="M396.69,90.41c8.24,53.12,23.71,127.98,55.15,213.4,16.78,45.59,83.63,217.9,295.86,444.03,107.86,114.92,286.93,279.61,553.53,424.46-22.11-1.6-41.87-3.51-59.3-5.54-26.87-3.13-48.19-6.52-63.99-9.44-22.67-4.19-48.44-14.59-62.85-22.22-395.18-209.23-517.98-367.55-517.98-367.55-159.53-212.43-190.42-478.45-197.16-564.34-3.67-46.8-3.81-85.86-3.25-112.8Z"/>
+      <path d="M235.66,946.34c5.41-6.57,82.05,52.3,148.53,96.37,47.32,31.37,91.68,58.14,138.95,82.69,142.51,74.03,265.62,111.71,351.74,135.69,67.88,18.9,110.84,30.65,173.29,38.02,86.34,10.18,159.26,5.99,210.42,0-60.35,36.51-113.76,49.21-146.77,54.29-50.23,7.73-91.85,3.77-135.26-.36-41.11-3.91-71.77-10.29-112.28-18.57-22.51-4.6-64.91-13.79-118.47-29.18-100.46-28.85-173.17-56.95-251.09-94.6-89.93-43.46-135.37-65.99-158.26-105.21-12.61-21.61-18.86-41.2-44.21-82.22-31.41-50.84-59.89-72.91-56.58-76.92Z"/>
+      <path d="M232.97,518.44c7.97-6.63,76.26,86.1,137.55,157.96,43.62,51.15,85.29,95.85,130.86,138.6,137.38,128.91,263.76,208.02,352.87,260.43,46.39,27.28,102.52,59.24,182.3,92.89,89.04,37.56,168.06,60.16,228,74.19-31.33,4.25-58.3,6.26-79.47,7.24,0,0-63.74,2.95-105.93-4.11-.34-.06-5.01-.85-5.01-.84,0,0,5.01.86,5.01.84.02-.09-67.12-4.25-138.37-30.17-25.68-9.35-55.71-22.93-74.83-31.54-13.86-6.25-28.85-13.25-45.08-21.2-23.78-11.65-68.41-34.25-123.7-67.42-103.69-62.22-176.62-116.11-252.56-183.13-87.65-77.36-131.76-117.14-145.81-171.41-7.74-29.9-8.97-55.63-25.23-112.77-20.15-70.82-45.47-105.51-40.61-109.55Z"/>
+      <path d="M335.56,1185.94c5.15-6.66,61.16,37.13,143.23,80.46,168.86,89.15,324.58,111.18,412.89,122.89,75.24,9.98,176.86,17.11,297.07,7.07-12.3,8.5-30.55,20.03-53.93,30.94-40.97,19.13-111.09,42.62-251.09,29.18-85.91-8.25-242.77-23.31-398.74-129.08-86.45-58.63-155.55-133.54-149.42-141.46Z"/>
+      <path d="M506.2,1403.44c93.62,38.67,175.8,62.85,239.3,78.39,140.16,34.3,222.36,34.58,250.5,34.19,18.22-.26,33.31-1.08,43.62-1.77,5.81-.39,9.55-.79,20.63-1.77,17.25-1.52,31.12-2.66,40.08-3.39-29.5,15.23-72.43,33.55-126.72,44.35-15.61,3.11-65.83,12.3-131.98,7.73-91.12-6.3-154.55-34.71-206.87-58.14-63.92-28.63-96.09-53.97-119.5-86.11-4.16-5.71-7.25-10.55-9.06-13.48Z"/>
+      <path d="M661.41,1580.2c40.79,14.01,94.44,27.98,158.31,33.33,90.26,7.57,165.45-5.03,216.53-17.96-20.14,12.35-48.94,27.78-85.53,40.45-28.66,9.92-54.71,18.94-89.68,20.46-69.52,3.03-122.52-25.8-147.42-39.76-23.31-13.06-40.81-26.73-52.21-36.53Z"/>
+      <path d="M752.05,1686.97c18.79,6.45,43.5,12.89,72.92,15.35,41.57,3.49,76.21-2.32,99.74-8.27-9.28,5.69-22.54,12.8-39.4,18.63-13.2,4.57-25.2,8.72-41.31,9.43-32.02,1.4-56.44-11.89-67.91-18.31-10.74-6.02-18.8-12.31-24.05-16.83Z"/>
+    </svg>
+    <span class="nome">ZERATTA</span>
+  </header>
+
+  <h1>Política de Privacidade</h1>
+  <p class="atualizado">Última atualização: 22 de setembro de 2026</p>
+
+  <p class="resumo">
+    Em resumo: guardamos seu nome, e-mail e país só para avisar você sobre o lançamento.
+    Não vendemos, não trocamos e não cedemos esses dados a ninguém. Você pode pedir a
+    exclusão a qualquer momento, sem justificar, escrevendo para
+    <a href="mailto:sac@zeratta.com">sac@zeratta.com</a>.
+  </p>
+
+  <h2>Quem trata seus dados</h2>
+  <p>
+    A Zeratta é a controladora dos dados coletados nesta página, nos termos da Lei Geral de
+    Proteção de Dados (Lei nº 13.709/2018). Para qualquer assunto relacionado a esta política,
+    incluindo pedidos de exclusão, o canal é <a href="mailto:sac@zeratta.com">sac@zeratta.com</a>.
+  </p>
+
+  <h2>O que coletamos, e por quê</h2>
+  <table class="tabela">
+    <tbody>
+      <tr>
+        <th>Nome</th>
+        <td>Para nos dirigirmos a você pelo nome nas comunicações do lançamento.</td>
+      </tr>
+      <tr>
+        <th>E-mail</th>
+        <td>Para enviar o aviso de lançamento e o acesso antecipado. É o único canal que usamos.</td>
+      </tr>
+      <tr>
+        <th>País</th>
+        <td>Para saber onde há demanda e planejar disponibilidade e idioma.</td>
+      </tr>
+      <tr>
+        <th>Data e hora do cadastro</th>
+        <td>Para ordenar a fila por ordem de chegada, já que a precedência é o que prometemos.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p>
+    Não coletamos telefone, endereço, documento, dado de pagamento nem qualquer dado sensível.
+    Não usamos cookies, pixel de rastreamento ou ferramenta de analytics nesta página.
+  </p>
+
+  <h2>Com que base legal</h2>
+  <p>
+    Com o seu consentimento, dado no momento em que você envia o formulário (art. 7º, inciso I,
+    da LGPD). O consentimento pode ser revogado a qualquer momento, e revogar é tão simples
+    quanto pedir a exclusão.
+  </p>
+
+  <h2>Quem mais tem acesso</h2>
+  <p>
+    Ninguém compra, aluga ou recebe esta lista. Há, porém, fornecedores de infraestrutura que
+    processam os dados em nosso nome, na condição de operadores:
+  </p>
+  <ul>
+    <li>
+      <strong>Google</strong>: a planilha e o script que recebem o formulário rodam no Google
+      Workspace. Os dados ficam armazenados na infraestrutura do Google.
+    </li>
+    <li>
+      <strong>GitHub</strong>: esta página é servida pelo GitHub Pages, que registra dados
+      técnicos de acesso, como endereço IP, para operar o serviço e prevenir abuso.
+    </li>
+    <li>
+      <strong>Google Fonts</strong>: a tipografia da página é carregada de servidores do Google,
+      o que transmite a eles o seu endereço IP no momento do carregamento.
+    </li>
+  </ul>
+
+  <h2>Por quanto tempo guardamos</h2>
+  <p>
+    Até o lançamento e pelo período de comunicação relacionado a ele, ou até você pedir a
+    exclusão, o que vier primeiro. Encerrada a campanha sem que você tenha virado cliente,
+    os dados são eliminados.
+  </p>
+
+  <h2>Seus direitos</h2>
+  <p>A LGPD garante a você, sobre os seus dados, o direito de:</p>
+  <ul>
+    <li>confirmar que existe tratamento e acessar o que guardamos;</li>
+    <li>corrigir dado incompleto, inexato ou desatualizado;</li>
+    <li>pedir a eliminação dos dados tratados com o seu consentimento;</li>
+    <li>pedir a portabilidade para outro fornecedor;</li>
+    <li>revogar o consentimento a qualquer momento;</li>
+    <li>saber com quais entidades compartilhamos os dados.</li>
+  </ul>
+  <p>
+    Para exercer qualquer um deles, escreva para
+    <a href="mailto:sac@zeratta.com">sac@zeratta.com</a>. Respondemos em até 15 dias. Não
+    pedimos justificativa e não tentamos convencer você a ficar.
+  </p>
+
+  <h2>Segurança</h2>
+  <p>
+    A página é servida por conexão criptografada (HTTPS) e os dados trafegam cifrados até o
+    destino. O acesso à planilha é restrito às contas da Zeratta. Nenhum sistema é
+    inviolável, e não prometemos o contrário: se houver incidente de segurança com risco
+    relevante a você, comunicaremos você e a Autoridade Nacional de Proteção de Dados.
+  </p>
+
+  <h2>Mudanças nesta política</h2>
+  <p>
+    Se esta política mudar, a data de atualização no topo muda junto. Alterações que afetem
+    de forma relevante o tratamento dos seus dados serão comunicadas por e-mail antes de
+    entrarem em vigor.
+  </p>
+
+  <a class="voltar" href="index.html">Voltar</a>
+
+</main>
+
+</body>
+</html>
