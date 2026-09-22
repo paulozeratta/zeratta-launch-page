@@ -561,11 +561,21 @@
 
   @media (max-width:1023px){
     .split{grid-template-columns:1fr;min-height:0}
-    .visual{position:static;height:38vh;height:38dvh;min-height:240px}
-    /* A faixa é larga e a foto é retrato, então o corte é severo.
-       Descer o enquadramento põe o cartão no centro e evita cortar
-       o letreiro da tampa pela metade. */
-    .visual img{object-position:center 60%}
+
+    /* Empilhado, a foto aparece INTEIRA. Altura fixa com object-fit
+       cover recortava a embalagem, que é justamente o assunto. Aqui a
+       faixa assume a proporção do arquivo, então não sobra barra nem
+       falta imagem. O `contain` é a rede de segurança: se um dia a
+       foto for trocada por outra de proporção diferente, ela continua
+       inteira, com o bordô do fundo preenchendo o que sobrar. */
+    .visual{
+      position:static;
+      height:auto;
+      min-height:0;
+      aspect-ratio:1145 / 1374;
+    }
+    .visual img{object-fit:contain;object-position:center}
+
     .panel{min-height:0;padding-block:clamp(2rem,5vw,3rem)}
     .brand,.content,.foot{max-width:34rem}
     .content{margin-block:0;padding-bottom:0}
@@ -573,7 +583,6 @@
   }
 
   @media (max-width:560px){
-    .visual{height:32vh;height:32dvh;min-height:200px}
     .panel{padding-inline:1.5rem}
     .foot{flex-direction:column;align-items:flex-start;gap:1.15rem}
   }
