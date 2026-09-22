@@ -19,9 +19,9 @@
 <meta name="twitter:card" content="summary_large_image" />
 
 <link rel="canonical" href="https://zeratta.com/" />
-<link rel="icon" type="image/svg+xml" href="favicon.svg" />
-<link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
-<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<link rel="icon" type="image/svg+xml" href="assets/marca/favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="assets/marca/favicon.png" />
+<link rel="apple-touch-icon" href="assets/marca/apple-touch-icon.png" />
 <meta name="theme-color" content="#FFFFFF" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -31,28 +31,43 @@
 <style>
   /* ============================================================
      ZERATTA · página de lançamento
-     Metade esquerda: a fotografia. Metade direita: o convite.
-     A costura entre as duas é seca de propósito, sem gutter e
-     sem sombra: é o único gesto forte da página.
+     Bordô escuro e prata. Metade esquerda é a fotografia, metade
+     direita é o convite. A costura entre as duas é seca de
+     propósito: é o único gesto forte em repouso. O resto da
+     personalidade aparece ao toque.
      ============================================================ */
 
   :root{
-    color-scheme: light;          /* impede o navegador de escurecer os campos */
+    color-scheme: light;
 
-    --paper:#FFFFFF;
-    --ink:#0E0E0E;
-    --ink-soft:#45423C;
-    --muted:#6E6B64;
-    --line:#E2E0DA;
-    --line-strong:#CFCBC2;
-    --bordeaux:#1A0709;
-    --bordeaux-lift:#2C0F13;
-    --gold:#B2954E;
+    --papel:#FFFFFF;
+    --tinta:#0E0E0E;
+    --tinta-suave:#45424A;
+    --apagado:#6C6A73;
+    --linha:#E3E1E4;
+    --linha-forte:#CBC9CF;
+
+    /* Bordô. O profundo é a cor da marca e serve de fundo, não de
+       botão: em 18:1 contra o branco ele lê como preto. O do botão
+       é claro o bastante para ser vinho e escuro o bastante para
+       ainda ser bordô escuro. */
+    --bordo:#5A1522;
+    --bordo-claro:#711B2D;
+    --bordo-fundo:#1A0709;
+
+    /* Prata. Prata de verdade (#C0C0C0) some no branco, então o tom
+       de trabalho é mais fechado e só o brilho usa o valor claro. */
+    --prata:#8E8C96;
+    --prata-clara:#C6C4CE;
+    --prata-escura:#6E6C77;
+    --prata-brilho:rgba(226,224,232,.26);
+
     --erro:#B3261E;
 
     --sans:"Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
     --ease:cubic-bezier(.22,1,.36,1);
-    --campo:3.4rem;               /* altura de campo e botão, iguais */
+    --mola:cubic-bezier(.34,1.56,.64,1);
+    --campo:3.4rem;
   }
 
   *{box-sizing:border-box;margin:0;padding:0}
@@ -64,8 +79,8 @@
 
   body{
     font-family:var(--sans);
-    color:var(--ink-soft);
-    background:var(--paper);
+    color:var(--tinta-suave);
+    background:var(--papel);
     -webkit-font-smoothing:antialiased;
     text-rendering:optimizeLegibility;
   }
@@ -90,14 +105,9 @@
     height:100vh;
     height:100dvh;
     overflow:hidden;
-    background:var(--bordeaux);   /* segura a cor enquanto a imagem carrega */
+    background:var(--bordo-fundo);   /* segura a cor enquanto carrega */
   }
-  .visual img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    object-position:center;
-  }
+  .visual img{width:100%;height:100%;object-fit:cover;object-position:center}
 
   /* ---------- O painel ---------- */
 
@@ -107,51 +117,39 @@
     min-height:100vh;
     min-height:100dvh;
     padding:clamp(1.75rem,3vw,3.25rem) clamp(1.5rem,4vw,4.5rem);
-    background:var(--paper);
+    background:var(--papel);
   }
 
   /* Marca, conteúdo e rodapé dividem UMA coluna centralizada. Sem
      isso, num ultrawide o rodapé se espalha por 1700px enquanto o
-     formulário ocupa 480px, e os três param de parecer o mesmo
-     objeto. O limite superior é o que segura a página em 3440px. */
+     formulário ocupa 480px, e os três param de parecer o mesmo objeto. */
   .brand,
   .content,
   .foot{width:100%;max-width:31rem;margin-inline:auto}
 
   /* Piso de respiro. As margens automáticas de .content zeram quando
-     o conteúdo cresce, e sem este piso o wordmark encosta no título. */
-  .brand{display:flex;align-items:center;gap:.72rem;margin-bottom:clamp(1.75rem,4vh,2.75rem)}
-  .brand .mark{height:30px;width:auto}
-  .brand .mark path{fill:var(--ink)}
+     o conteúdo cresce, e sem este piso o monograma encosta no título. */
+  .brand{display:flex;align-items:center;gap:.8rem;margin-bottom:clamp(1.75rem,4vh,2.75rem)}
+  .brand .mark{height:30px;width:auto;color:var(--tinta)}
   .brand .nome{
     font-size:.78rem;
     font-weight:300;
     letter-spacing:.38em;
-    color:var(--ink);
-    /* o espaçamento cria um vão fantasma depois do último A */
-    margin-right:-.38em;
+    color:var(--tinta);
+    margin-right:-.38em;   /* o vão fantasma depois do último A */
   }
 
-  .content{
-    margin-block:auto;
-    /* sobe o bloco: centro matemático lê como baixo demais */
-    padding-bottom:clamp(1rem,4vh,2.5rem);
-  }
+  .content{margin-block:auto;padding-bottom:clamp(1rem,4vh,2.5rem)}
 
   h1{
     font-weight:300;
     font-size:clamp(2.3rem,1.15rem + 2.7vw,3.35rem);
     line-height:1.04;
     letter-spacing:-.025em;
-    color:var(--ink);
+    color:var(--tinta);
   }
 
-  .lede{
-    margin-top:1.15rem;
-    max-width:34ch;
-    font-size:.95rem;
-    line-height:1.6;
-  }
+  .lede{margin-top:1.15rem;max-width:34ch;font-size:.95rem;line-height:1.6}
 
   /* ---------- Os três itens ---------- */
 
@@ -164,7 +162,7 @@
     font-size:.9rem;
     line-height:1.5;
   }
-  .perks .tick{width:15px;height:15px;margin-top:.2em;color:var(--gold);flex:none}
+  .perks .tick{width:15px;height:15px;margin-top:.2em;color:var(--prata);flex:none}
 
   /* ---------- Formulário ---------- */
 
@@ -180,6 +178,20 @@
   /* Armadilha para robô. Invisível, fora da ordem de tabulação. */
   .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 
+  .campo{position:relative}
+
+  /* Filete de prata que cresce da esquerda quando o campo recebe
+     foco. É a confirmação de "estou aqui" sem piscar nada. */
+  .campo::after{
+    content:"";
+    position:absolute;left:.7rem;right:.7rem;bottom:0;height:1px;
+    background:linear-gradient(90deg,var(--prata-escura),var(--prata-clara),var(--prata-escura));
+    transform:scaleX(0);transform-origin:left;
+    transition:transform .5s var(--ease);
+    pointer-events:none;
+  }
+  .campo:focus-within::after{transform:scaleX(1)}
+
   .form input,
   .form select{
     width:100%;
@@ -187,20 +199,20 @@
     padding:0 1.05rem;
     font-family:inherit;
     font-size:.88rem;
-    color:var(--ink);
-    background:var(--paper);
-    border:1px solid var(--line);
+    color:var(--tinta);
+    background:var(--papel);
+    border:1px solid var(--linha);
     border-radius:3px;
-    transition:border-color .35s var(--ease), box-shadow .35s var(--ease);
+    transition:border-color .4s var(--ease), box-shadow .4s var(--ease);
   }
 
-  /* O print usa caixa alta espaçada. Vale para o texto de apoio,
-     nunca para o que a pessoa digita: ninguém se chama PAULO. */
+  /* Caixa alta espaçada vale para o texto de apoio, nunca para o que
+     a pessoa digita: ninguém se chama PAULO. */
   .form input::placeholder{
     text-transform:uppercase;
     letter-spacing:.12em;
     font-size:.72rem;
-    color:var(--muted);
+    color:var(--apagado);
     opacity:1;
   }
   /* Enquanto nada foi escolhido, o select é :invalid e se veste de
@@ -209,33 +221,32 @@
     text-transform:uppercase;
     letter-spacing:.12em;
     font-size:.72rem;
-    color:var(--muted);
+    color:var(--apagado);
   }
   .form select{
     appearance:none;
-    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%236E6B64' stroke-width='1.3' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%238E8C96' stroke-width='1.3' stroke-linecap='round' stroke-linejoin='round'/></svg>");
     background-repeat:no-repeat;
     background-position:right 1.1rem center;
     padding-right:2.6rem;
     cursor:pointer;
   }
-  .form select option{
-    text-transform:none;
-    letter-spacing:normal;
-    font-size:.88rem;
-    color:var(--ink);
-  }
+  .form select option{text-transform:none;letter-spacing:normal;font-size:.88rem;color:var(--tinta)}
 
   .form input:focus,
   .form select:focus{
     outline:none;
-    border-color:var(--gold);
-    box-shadow:0 0 0 2px rgba(178,149,78,.22);
+    border-color:var(--prata);
+    box-shadow:0 0 0 3px rgba(142,140,150,.15);
   }
   .form input[aria-invalid="true"],
   .form select[aria-invalid="true"]{border-color:var(--erro)}
 
+  /* ---------- Botão ---------- */
+
   .cta{
+    position:relative;
+    overflow:hidden;
     height:var(--campo);
     margin-top:.35rem;
     font-family:inherit;
@@ -244,80 +255,130 @@
     letter-spacing:.2em;
     text-transform:uppercase;
     color:#FFFFFF;
-    background:var(--bordeaux);
+    background:var(--bordo);
     border:0;
     border-radius:3px;
     cursor:pointer;
-    transition:background-color .4s var(--ease), opacity .3s var(--ease);
+    transition:background-color .4s var(--ease),
+               transform .2s var(--ease),
+               opacity .3s var(--ease);
   }
-  .cta:hover{background:var(--bordeaux-lift)}
-  .cta:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
-  .cta[disabled]{opacity:.5;cursor:default}
+  .cta:hover{background:var(--bordo-claro)}
+  .cta:active{transform:scale(.985)}
+  .cta:focus-visible{outline:2px solid var(--prata);outline-offset:3px}
+  .cta[disabled]{opacity:.62;cursor:default}
+  .cta[disabled]:active{transform:none}
 
-  .erro{
-    min-height:1.15rem;
-    font-size:.75rem;
-    line-height:1.5;
-    color:var(--erro);
+  /* O brilho de prata que atravessa o botão. Passa uma vez no hover
+     e fica em laço enquanto envia, no lugar de um spinner genérico. */
+  .cta::after{
+    content:"";
+    position:absolute;inset:0;
+    background:linear-gradient(105deg,transparent 38%,var(--prata-brilho) 50%,transparent 62%);
+    transform:translateX(-130%);
+    pointer-events:none;
   }
+  .cta:hover::after{animation:brilho .95s var(--ease)}
+  .cta[data-estado="enviando"]::after{animation:brilho 1.15s var(--ease) infinite}
+
+  @keyframes brilho{to{transform:translateX(130%)}}
+
+  /* ---------- Erro ---------- */
+
+  .erro{min-height:1.15rem;font-size:.75rem;line-height:1.5;color:var(--erro)}
   .erro:empty{min-height:0}
+  .erro:not(:empty){animation:surge .35s var(--ease) both}
+
+  .campo.tremendo{animation:tremor .5s var(--ease)}
+  @keyframes tremor{
+    15%,85%{transform:translateX(-2px)}
+    30%,70%{transform:translateX(3px)}
+    45%,60%{transform:translateX(-2px)}
+  }
 
   /* ---------- Confirmação ---------- */
 
   .pronto{margin-top:2rem}
-  .pronto h2{
-    font-size:1.35rem;
-    font-weight:300;
-    letter-spacing:-.015em;
-    color:var(--ink);
-  }
-  .pronto p{margin-top:.7rem;font-size:.9rem;line-height:1.6;max-width:34ch}
   .pronto .risco{
-    width:34px;height:1px;
-    margin-bottom:1.35rem;
-    background:var(--gold);
+    width:0;height:1px;margin-bottom:1.35rem;
+    background:linear-gradient(90deg,var(--prata-escura),var(--prata-clara),var(--prata-escura));
+    transition:width .8s var(--ease) .12s;
   }
+  .pronto.entrando .risco{width:44px}
+  .pronto h2{font-size:1.35rem;font-weight:300;letter-spacing:-.015em;color:var(--tinta)}
+  .pronto h2:focus{outline:none}
+  .pronto p{margin-top:.7rem;font-size:.9rem;line-height:1.6;max-width:34ch}
+  .pronto h2,
+  .pronto p{opacity:0;transform:translateY(10px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+  .pronto.entrando h2{opacity:1;transform:none;transition-delay:.18s}
+  .pronto.entrando p{opacity:1;transform:none;transition-delay:.28s}
+
+  .saindo{opacity:0;transform:translateY(-8px);transition:opacity .34s var(--ease),transform .34s var(--ease)}
 
   /* ---------- Rodapé legal e institucional ---------- */
 
-  .legal{margin-top:1.2rem;font-size:.7rem;line-height:1.65;color:var(--muted)}
+  .legal{margin-top:1.2rem;font-size:.7rem;line-height:1.65;color:var(--apagado)}
   .legal a{
-    color:var(--ink-soft);
+    position:relative;
+    color:var(--tinta-suave);
     text-decoration:none;
-    border-bottom:1px solid var(--line-strong);
-    transition:color .35s var(--ease), border-color .35s var(--ease);
-  }
-  .legal a:hover{color:var(--ink);border-bottom-color:var(--gold)}
-  .legal a:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:1px}
-
-  .foot{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:1rem;
-    padding-top:2rem;
-    font-size:.68rem;
-    color:var(--muted);
-  }
-  .social{display:flex;align-items:center;gap:.55rem}
-  .social a{
-    display:inline-flex;
-    color:var(--muted);
+    border-bottom:1px solid var(--linha-forte);
     transition:color .35s var(--ease);
   }
-  .social a:hover{color:var(--ink)}
-  .social a:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
-  .social svg{width:15px;height:15px}
+  .legal a::after{
+    content:"";
+    position:absolute;left:0;right:0;bottom:-1px;height:1px;
+    background:var(--prata);
+    transform:scaleX(0);transform-origin:left;
+    transition:transform .45s var(--ease);
+  }
+  .legal a:hover{color:var(--tinta)}
+  .legal a:hover::after{transform:scaleX(1)}
+  .legal a:focus-visible{outline:2px solid var(--prata);outline-offset:3px;border-radius:1px}
 
-  /* ---------- Um único gesto no carregamento ---------- */
+  .foot{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:1rem;padding-top:2rem;
+    font-size:.68rem;color:var(--apagado);
+  }
+  .social{display:flex;align-items:center;gap:.95rem}
+  .social a{
+    display:inline-flex;
+    color:var(--apagado);
+    transition:color .35s var(--ease), transform .35s var(--mola);
+  }
+  .social a:hover{color:var(--tinta);transform:translateY(-3px)}
+  .social a:focus-visible{outline:2px solid var(--prata);outline-offset:4px;border-radius:2px}
+  .social svg{width:16px;height:16px}
 
-  @keyframes assenta{from{transform:scale(1.04)}to{transform:scale(1)}}
-  @keyframes sobe{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  /* ---------- A entrada, uma vez só ---------- */
 
-  .visual img{animation:assenta 1.6s var(--ease) both}
-  .brand{animation:sobe .9s var(--ease) .05s both}
-  .content{animation:sobe .9s var(--ease) .16s both}
-  .foot{animation:sobe .9s var(--ease) .28s both}
+  @keyframes assenta{from{transform:scale(1.05)}to{transform:scale(1)}}
+  @keyframes sobe{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  @keyframes surge{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  @keyframes risca{to{stroke-dashoffset:0}}
+
+  .visual img{animation:assenta 1.8s var(--ease) both}
+
+  .brand  {animation:sobe .85s var(--ease) .05s both}
+  h1      {animation:sobe .85s var(--ease) .14s both}
+  .lede   {animation:sobe .85s var(--ease) .23s both}
+  .perks li:nth-child(1){animation:sobe .8s var(--ease) .32s both}
+  .perks li:nth-child(2){animation:sobe .8s var(--ease) .39s both}
+  .perks li:nth-child(3){animation:sobe .8s var(--ease) .46s both}
+  .form   {animation:sobe .85s var(--ease) .55s both}
+  .legal  {animation:sobe .85s var(--ease) .64s both}
+  .foot   {animation:sobe .85s var(--ease) .72s both}
+
+  /* Os checks se desenham depois que o item já chegou. */
+  .tick circle{stroke-dasharray:45;stroke-dashoffset:45;animation:risca .7s var(--ease) both}
+  .tick path  {stroke-dasharray:14;stroke-dashoffset:14;animation:risca .45s var(--ease) both}
+  .perks li:nth-child(1) .tick circle{animation-delay:.42s}
+  .perks li:nth-child(1) .tick path  {animation-delay:.80s}
+  .perks li:nth-child(2) .tick circle{animation-delay:.49s}
+  .perks li:nth-child(2) .tick path  {animation-delay:.87s}
+  .perks li:nth-child(3) .tick circle{animation-delay:.56s}
+  .perks li:nth-child(3) .tick path  {animation-delay:.94s}
 
   /* ---------- Empilhado ---------- */
 
@@ -329,10 +390,7 @@
        o letreiro da tampa pela metade. */
     .visual img{object-position:center 60%}
     .panel{min-height:0;padding-block:clamp(2rem,5vw,3rem)}
-    /* Empilhado, a coluna pode respirar um pouco mais que no painel. */
     .brand,.content,.foot{max-width:34rem}
-    /* O respiro agora vem do margin-bottom de .brand, que vale em
-       qualquer largura. Aqui só zeramos as margens automáticas. */
     .content{margin-block:0;padding-bottom:0}
     .foot{padding-top:2.5rem}
   }
@@ -340,10 +398,12 @@
   @media (max-width:560px){
     .visual{height:32vh;height:32dvh;min-height:200px}
     .panel{padding-inline:1.5rem}
-    .foot{flex-direction:column;align-items:flex-start;gap:1rem}
+    .foot{flex-direction:column;align-items:flex-start;gap:1.15rem}
   }
 
-  /* ---------- Movimento reduzido ---------- */
+  /* ---------- Movimento reduzido ----------
+     Quem pediu menos movimento recebe a página inteira de uma vez,
+     e não uma versão acelerada da coreografia. */
 
   @media (prefers-reduced-motion:reduce){
     *,*::before,*::after{
@@ -351,6 +411,8 @@
       animation-iteration-count:1 !important;
       transition-duration:.01ms !important;
     }
+    .pronto .risco{width:44px}
+    .pronto h2,.pronto p{opacity:1;transform:none}
   }
 </style>
 </head>
@@ -370,16 +432,8 @@
   <section class="panel">
 
     <header class="brand">
-      <svg class="mark" viewBox="0 0 2000 2000" role="img" aria-label="Símbolo ZERATTA, a águia">
-        <path d="M1187.28,827.64c44.8-12.78,79.62-26.33,102.12-35.81,19.22-8.09,93.18-40.04,165.77-68.96,23.4-9.32,48.19-18.8,72.94-9.28,19.41,7.47,21.93,18.27,42.44,27.85,30.65,14.32,50.71.43,83.37,2.02,68.04,3.32,116.77,70.1,113.58,74.9-2.14,3.22-29.92-18.09-79.72-18.09h0c-22.83,7.15-41.29,16.94-56.22,27.37-132.14,92.29-104.12,315.48-100.79,339.5-16.68-20.12-36.8-50.12-49.07-90.18-20.39-66.59-12.1-167.99,30.5-225.45,3.3-4.46,9.02-11.61,6.63-15.91-8.48-15.32-106.12,16.18-176.38,53.05-41.21,21.62-98.46,58.45-156.49,122.01.42-15.63,3-38.43,13.26-63.66,17.26-42.42,46.35-67.32,61-78.24-24.31-13.7-48.63-27.41-72.94-41.11Z"/>
-        <path d="M677.6,1909.59c37.09-17.77,96.8-46.02,171.08-79.57,166.49-75.2,247.68-105.4,344.08-170.1,37.19-24.96,92.8-65.9,145.22-133.09,0,0,12.53-16.47,25.26-34.98,74.96-108.98,107.26-217.29,122.01-294.41,6.27,34.94,12.3,89.8,2.65,155.16-27.21,184.26-155.71,293.94-188.32,320.94-20.79,17.21-65.08,51.23-232.08,115.38-93.36,35.86-225.24,81.21-389.9,120.68Z"/>
-        <path d="M396.69,90.41c8.24,53.12,23.71,127.98,55.15,213.4,16.78,45.59,83.63,217.9,295.86,444.03,107.86,114.92,286.93,279.61,553.53,424.46-22.11-1.6-41.87-3.51-59.3-5.54-26.87-3.13-48.19-6.52-63.99-9.44-22.67-4.19-48.44-14.59-62.85-22.22-395.18-209.23-517.98-367.55-517.98-367.55-159.53-212.43-190.42-478.45-197.16-564.34-3.67-46.8-3.81-85.86-3.25-112.8Z"/>
-        <path d="M235.66,946.34c5.41-6.57,82.05,52.3,148.53,96.37,47.32,31.37,91.68,58.14,138.95,82.69,142.51,74.03,265.62,111.71,351.74,135.69,67.88,18.9,110.84,30.65,173.29,38.02,86.34,10.18,159.26,5.99,210.42,0-60.35,36.51-113.76,49.21-146.77,54.29-50.23,7.73-91.85,3.77-135.26-.36-41.11-3.91-71.77-10.29-112.28-18.57-22.51-4.6-64.91-13.79-118.47-29.18-100.46-28.85-173.17-56.95-251.09-94.6-89.93-43.46-135.37-65.99-158.26-105.21-12.61-21.61-18.86-41.2-44.21-82.22-31.41-50.84-59.89-72.91-56.58-76.92Z"/>
-        <path d="M232.97,518.44c7.97-6.63,76.26,86.1,137.55,157.96,43.62,51.15,85.29,95.85,130.86,138.6,137.38,128.91,263.76,208.02,352.87,260.43,46.39,27.28,102.52,59.24,182.3,92.89,89.04,37.56,168.06,60.16,228,74.19-31.33,4.25-58.3,6.26-79.47,7.24,0,0-63.74,2.95-105.93-4.11-.34-.06-5.01-.85-5.01-.84,0,0,5.01.86,5.01.84.02-.09-67.12-4.25-138.37-30.17-25.68-9.35-55.71-22.93-74.83-31.54-13.86-6.25-28.85-13.25-45.08-21.2-23.78-11.65-68.41-34.25-123.7-67.42-103.69-62.22-176.62-116.11-252.56-183.13-87.65-77.36-131.76-117.14-145.81-171.41-7.74-29.9-8.97-55.63-25.23-112.77-20.15-70.82-45.47-105.51-40.61-109.55Z"/>
-        <path d="M335.56,1185.94c5.15-6.66,61.16,37.13,143.23,80.46,168.86,89.15,324.58,111.18,412.89,122.89,75.24,9.98,176.86,17.11,297.07,7.07-12.3,8.5-30.55,20.03-53.93,30.94-40.97,19.13-111.09,42.62-251.09,29.18-85.91-8.25-242.77-23.31-398.74-129.08-86.45-58.63-155.55-133.54-149.42-141.46Z"/>
-        <path d="M506.2,1403.44c93.62,38.67,175.8,62.85,239.3,78.39,140.16,34.3,222.36,34.58,250.5,34.19,18.22-.26,33.31-1.08,43.62-1.77,5.81-.39,9.55-.79,20.63-1.77,17.25-1.52,31.12-2.66,40.08-3.39-29.5,15.23-72.43,33.55-126.72,44.35-15.61,3.11-65.83,12.3-131.98,7.73-91.12-6.3-154.55-34.71-206.87-58.14-63.92-28.63-96.09-53.97-119.5-86.11-4.16-5.71-7.25-10.55-9.06-13.48Z"/>
-        <path d="M661.41,1580.2c40.79,14.01,94.44,27.98,158.31,33.33,90.26,7.57,165.45-5.03,216.53-17.96-20.14,12.35-48.94,27.78-85.53,40.45-28.66,9.92-54.71,18.94-89.68,20.46-69.52,3.03-122.52-25.8-147.42-39.76-23.31-13.06-40.81-26.73-52.21-36.53Z"/>
-        <path d="M752.05,1686.97c18.79,6.45,43.5,12.89,72.92,15.35,41.57,3.49,76.21-2.32,99.74-8.27-9.28,5.69-22.54,12.8-39.4,18.63-13.2,4.57-25.2,8.72-41.31,9.43-32.02,1.4-56.44-11.89-67.91-18.31-10.74-6.02-18.8-12.31-24.05-16.83Z"/>
+      <svg class="mark" viewBox="412 488 1237 971" fill="currentColor" role="img" aria-label="Monograma ZERATTA">
+        <path d="M1625.11,1397.03c-13.07,9.31-27.46,17.01-42.83,22.79-.9.34-1.79.69-2.69.99-5.06,1.86-10.25,3.52-15.56,4.98-3.24.89-6.53,1.7-9.86,2.44-1.74.38-3.5.75-5.26,1.09-.05,0-.09.01-.14.03-9.15,1.93-18.66,3.92-30.33,4.91-.9.08-1.79.14-2.67.2-3.83.27-7.45.37-11.86.39-1.04.01-2.12.01-3.27.01-2.25,0-4.68-.03-7.34-.05h-20.72c-5.26-.15-10.48-.5-15.62-1.06h-.03c-10.06-1.09-19.86-2.95-29.35-5.53-.58-.17-1.17-.32-1.75-.5-.06-.01-.13-.03-.19-.05-8.44-2.39-16.64-5.34-24.52-8.84-.03,0-.05-.01-.08-.03-.56-.24-1.12-.5-1.67-.75-.56-.24-1.11-.5-1.65-.76-.61-.28-1.22-.56-1.83-.86-.48-.23-.98-.46-1.46-.7-.7-.34-1.4-.69-2.08-1.04-.83-.42-1.65-.84-2.48-1.27-.86-.44-1.72-.9-2.57-1.37-.64-.34-1.27-.69-1.91-1.06-.62-.34-1.25-.69-1.87-1.06-.62-.36-1.25-.71-1.86-1.08-.69-.39-1.36-.8-2.03-1.22-.9-.55-1.81-1.11-2.71-1.68-.47-.29-.95-.6-1.42-.9s-.94-.61-1.41-.92c-1.14-.76-2.29-1.54-3.42-2.31-.95-.66-1.91-1.32-2.85-2.01-.01,0-.03-.01-.04-.03-.48-.34-.97-.69-1.44-1.06-.86-.62-1.73-1.27-2.59-1.92-.06-.05-.13-.09-.18-.14-1.17-.89-2.31-1.78-3.45-2.69-1.14-.9-2.26-1.83-3.37-2.77-1.03-.86-2.06-1.74-3.06-2.63-.99-.86-1.96-1.74-2.92-2.63-.18-.17-.36-.33-.53-.5-.99-.93-1.98-1.86-2.95-2.8-.98-.95-1.96-1.92-2.92-2.9-.01,0-.01-.01-.01-.01-.81-.83-1.63-1.67-2.42-2.5-.57-.6-1.14-1.2-1.69-1.81-1.35-1.46-2.67-2.94-3.97-4.44-1.75-2.03-3.47-4.11-5.14-6.23-.5-.56-.98-1.12-1.47-1.68-.01-.03-.04-.05-.06-.09l-.43-.6-6.28-8.72-10.41-14.45s-.03-.05-.05-.06l-7.17-9.97-7.36-10.22-171.8-238.64-.09-.13-1.47-2.05-15.62-21.69-.18-.27-37.3-51.82-6.04-8.39c-1.44-2.58-3.19-5.01-5.24-7.27-.52-.58-1.08-1.17-1.64-1.72-1.94-1.95-4.11-3.74-6.46-5.38-5.9-4.12-12.99-7.23-20.84-9.03l-.09-.13-2.97-4.12c6.24.48,12.55.72,18.92.72,2.12,0,4.25-.03,6.36-.09,15.89-.39,31.39-2.33,46.34-5.62.93-.22,1.86-.42,2.78-.64,13.87-3.24,27.26-7.67,40.04-13.16,2.69-1.16,5.35-2.35,7.98-3.6,3.01-1.42,5.99-2.91,8.91-4.46l.36.48c-.19-.25-.1-.61.18-.76.23-.13.46-.24.69-.37.89-.47,1.78-.95,2.66-1.44,1.11-.6,2.21-1.22,3.31-1.84,2.2-1.26,4.37-2.54,6.52-3.86,52.25-32.09,90.41-83.53,103.61-143.83.01-.03.01-.06.01-.09,3.22-14.68,4.95-29.89,5.02-45.46h.01v-1.27c.01-1.4,0-2.82-.04-4.27-.04-2.19-.11-4.45-.24-6.78-.05-1.04-.1-2.07-.18-3.11-.01-.37-.04-.75-.08-1.13-.06-1.02-.14-2.03-.23-3.05-.09-1.19-.2-2.4-.33-3.62v-.04c-.11-1.18-.24-2.36-.39-3.57-.13-1.18-.28-2.38-.44-3.58-.11-.86-.24-1.73-.37-2.61-.11-.8-.23-1.6-.37-2.42-.01-.11-.03-.23-.05-.36-.13-.76-.25-1.54-.38-2.31-.61-3.6-1.3-7.08-2.05-10.44-.2-.93-.41-1.86-.64-2.77,0-.04-.01-.06-.03-.09-.24-1.09-.51-2.17-.79-3.25-.34-1.39-.7-2.76-1.07-4.09-.25-.93-.51-1.86-.78-2.76-.32-1.13-.65-2.24-.98-3.33-.37-1.22-.75-2.4-1.12-3.57-.33-1.02-.67-2.02-1.02-3.04-.31-.94-.62-1.86-.95-2.76-.28-.76-.55-1.53-.83-2.28-.23-.65-.47-1.28-.71-1.92-.04-.09-.08-.19-.11-.28-.04-.1-.08-.2-.11-.29-.31-.85-.64-1.72-.99-2.57-.37-.95-.74-1.91-1.13-2.85-1.22-2.97-2.52-5.92-3.88-8.84-.39-.88-.8-1.75-1.23-2.62-.52-1.11-1.06-2.2-1.61-3.29-.44-.92-.92-1.83-1.39-2.73-.06-.13-.13-.24-.19-.36-.43-.84-.86-1.68-1.32-2.5l-.76-1.41c-.51-.95-1.04-1.91-1.59-2.86-.64-1.13-1.28-2.25-1.95-3.36-.56-.98-1.14-1.96-1.75-2.92-4.81-7.92-10.12-15.53-15.93-22.79-.27-.33-.53-.67-.79-1-.27-.34-.52-.67-.79-.99-.34-.42-.67-.84-1-1.25-.34-.42-.67-.84-1.02-1.25-.72-.88-1.44-1.72-2.14-2.54-.36-.42-.71-.84-1.07-1.25-.75-.88-1.49-1.72-2.21-2.53-.83-.92-1.61-1.79-2.39-2.63-.86-.94-1.73-1.86-2.58-2.75-.84-.89-1.69-1.77-2.53-2.61-.65-.66-1.3-1.31-1.93-1.92-.27-.28-.53-.53-.8-.79-.37-.36-.74-.71-1.11-1.07-11.44-10.92-20.95-17.11-27.66-20.7-.04-.03-.08-.04-.1-.06l-.99-.46c-5.56-2.56-11.28-4.78-17.12-6.66-.43-.14-.86-.28-1.3-.42h-.04c-7.14-1.96-13.45-2.87-18.32-3.32.04-.01.09-.01.13-.01h-.28c-.05.08-.1.17-.15.24-13.27,20.62-26.53,41.24-39.8,61.86-4.33,6.75-8.67,13.49-13,20.23l-40.03,62.22-39.79,61.85-62.56,97.23-2.71,4.22-2.52,3.9-6.47,10.07-32.94,51.19-2.81,4.36-5.95,9.24-251.26,390.54-6.76,10.51-1.49,2.3-3.92,6.09c-.7.89-1.31,1.84-1.83,2.85l-.03.05c-.05.08-.09.15-.13.23-.05.1-.11.19-.15.29-.34.6-.61,1.23-.83,1.88-.03.08-.05.14-.08.22v.05c-.06.15-.11.31-.17.46-.66,1.93-1.03,4-1.08,6.15-.01.28-.01.56-.01.85,0,.13,0,.27.01.39,0,.25.03.51.04.75.01.09.01.19.03.28.24,2.97,1.12,5.76,2.48,8.25.04.06.06.13.1.18,3.14,5.61,8.78,9.61,15.41,10.46h.08s.05.01.08.01c.83.11,1.68.17,2.54.17s139.05.27,140.7.32c1.18.04,2.36.06,3.56.09,1.58.03,3.15.04,4.73.05.1.01.19.01.29.01,1.47.03,2.96.04,4.45.04,3.2.01,6.42-.01,9.65-.11,1.39-.04,2.78-.08,4.18-.14,2.7-.11,5.36-.25,8.05-.43,13.45-.89,26.65-2.62,39.54-5.12,0,0,15.47-3.31,22.87-5.34,10.17-2.77,20.11-6.05,29.8-9.79,23.2-8.75,44.67-20.02,63.91-33.4,3.38-2.11,6.7-4.27,9.95-6.51.47-.32.94-.65,1.41-.97,1.96-1.36,3.9-2.75,5.81-4.14,1.18-.86,2.35-1.74,3.51-2.62,1.02-.78,2.03-1.55,3.04-2.34,1.07-.84,2.14-1.68,3.19-2.53.97-.78,1.92-1.55,2.86-2.35.23-.18.46-.37.69-.56.69-.57,1.37-1.14,2.05-1.73,1.4-1.19,2.78-2.4,4.14-3.62.69-.6,1.36-1.21,2.03-1.83.72-.65,1.44-1.31,2.15-1.97.76-.71,1.51-1.42,2.26-2.14.01-.01.03-.03.04-.04.92-.86,1.82-1.74,2.71-2.63.72-.71,1.44-1.42,2.15-2.14.65-.66,1.3-1.31,1.92-1.97,9.29-9.59,17.64-19.79,24.98-30.54.56-.83,1.12-1.64,1.67-2.48,1.89-2.86,3.71-5.75,5.45-8.68.45-.72.86-1.45,1.28-2.17.39-.67.79-1.35,1.17-2.03.32-.55,1.14-.18.94.43l-43.38,128.74-19.17,56.86c-.06.22-.27.36-.5.36H436.42c-.41,0-.66-.44-.44-.79l8.86-15.08,19.83-30.89,6.72-10.46,11.12-17.31,66.98-104.26,3.01-4.69,5.49-8.56,130.56-203.22,30.52-47.51,36.85-57.37,4.18-6.52,65.8-102.41,7.08-11.02,1.64-2.54.78-1.22,34.92-54.36,15.06-23.45,24.12-37.53,6.78-10.55s.01-.01.01-.01l.8-1.25,18.45-28.72,21.05-32.76,12.61-19.63c.64-.8,1.21-1.67,1.72-2.56.04-.05.06-.11.1-.18.1-.18.19-.36.28-.55.71-1.36,1.27-2.8,1.67-4.31.42-1.67.65-3.39.65-5.17,0-1.12-.09-2.21-.27-3.28-.1-.69-.25-1.36-.43-2.02-.29-1.14-.69-2.26-1.18-3.32-3.31-7.22-10.65-12.24-19.2-12.24h-303.59c-3.1.23-6.34.56-9.7,1.02-11.33,1.55-20.85,4.09-27.88,6.39-11.82,4.72-23.14,10.32-33.84,16.7-1.26.75-2.52,1.51-3.75,2.29-1.25.78-2.49,1.55-3.71,2.35-.8.51-1.59,1.03-2.38,1.56-.61.39-1.22.8-1.82,1.22-.5.33-.98.66-1.47,1.02-.71.47-1.41.97-2.11,1.46-.66.46-1.32.93-1.98,1.42-.61.42-1.21.86-1.81,1.32-.47.32-.93.66-1.39,1.02-.84.61-1.67,1.25-2.49,1.88-.98.75-1.94,1.51-2.91,2.28-.88.69-1.74,1.39-2.61,2.1-.14.11-.27.22-.41.34-.95.78-1.91,1.56-2.83,2.36-.34.28-.67.57-1.02.88-.72.6-1.44,1.22-2.15,1.86-1.46,1.28-2.9,2.58-4.32,3.92-.79.72-1.58,1.46-2.35,2.2-1.03.99-2.06,2-3.08,3-1.03,1-2.03,2.02-3.03,3.05-1,1.03-2,2.06-2.96,3.11-.78.81-1.53,1.63-2.26,2.45-.31.33-.61.66-.9,1-.7.76-1.37,1.53-2.03,2.3-.25.29-.51.57-.75.86-.61.7-1.21,1.4-1.81,2.11-.44.52-.88,1.04-1.31,1.58-.5.6-.98,1.18-1.46,1.79-.41.5-.81,1-1.19,1.5-.64.79-1.26,1.58-1.86,2.38-.22.27-.42.53-.61.8-.62.79-1.22,1.59-1.81,2.39-.42.55-.83,1.11-1.22,1.65-.52.7-1.03,1.4-1.51,2.11-.17.22-.31.42-.44.64-.74,1.03-1.45,2.06-2.15,3.09-3.19,4.7-6.19,9.52-8.99,14.45-.64,1.12-1.26,2.24-1.87,3.37-.09.14-.17.28-.23.42-.5.9-.98,1.81-1.45,2.72-.23.42-.44.85-.66,1.28-.42.79-.81,1.58-1.19,2.38-.34.65-.66,1.31-.97,1.97-.25.51-.5,1-.72,1.53-.37.75-.72,1.5-1.07,2.26-.32.69-.64,1.37-.94,2.07-.15.33-.31.66-.44.99-.27.6-1.17.27-.97-.37l38.02-124.49,3.18-10.41,12.23-40.03c.06-.22.27-.37.51-.37h630.46c3.08.13,6.25.37,9.53.72h.01c4.86.52,9.48,1.27,13.88,2.19,0,0,.06.01.18.04.06.01.13.03.22.05.09.03.19.04.28.06.1.03.22.05.32.08,1.75.42,5.68,1.36,10.73,2.68.04.01.08.01.11.03,6.71,1.75,15.33,4.17,23.29,6.85.04.03.08.04.11.05,3.28,1.11,6.43,2.26,9.29,3.43.06.03.14.06.2.09,2.14.78,4.26,1.59,6.37,2.43,1.88.75,3.74,1.53,5.58,2.31,3.71,1.6,7.36,3.29,10.97,5.06.03,0,.06.03.09.04,3.6,1.77,7.13,3.62,10.61,5.57.67.37,1.35.75,2.02,1.14.04.01.06.04.1.05l.09.05c7.68,4.37,15.08,9.17,22.17,14.35.74.53,1.47,1.08,2.21,1.63.84.62,1.68,1.27,2.52,1.91,27.81,21.4,50.53,48.79,66.08,80.17.19.39.38.79.57,1.18,12.78,27.27,20.42,57.75,21.54,90.13,1.06,30.78-3.86,60.33-13.69,87.42-.01.06-.04.11-.06.18-9.45,24.59-23.11,47.14-40.17,66.87t-.03.03c-3.93,5.49-8.11,10.79-12.52,15.92-33.71,39.17-80.66,67.16-134.15,77.48-.2.04-.39-.04-.52-.2l.19.27,46.16,63.85,47.01,65.05c.06.09.14.18.2.27,12.15,15.84,23.57,30.94,34.26,45.29,1.92,2.58,3.83,5.15,5.71,7.68,6.32,8.53,12.38,16.79,18.19,24.76,2.94,4.03,5.8,7.98,8.61,11.86,5.54,7.68,10.83,15.08,15.89,22.18,2.12,3,4.21,5.95,6.25,8.85,14.01,19.87,26.01,37.37,36.17,52.44l20.44,28.29,7.31,10.11,5.52,7.65s.04.05.05.06c12.71,15.14,27.47,29.18,46.49,40.73,4.44,2.71,9.1,5.28,14.03,7.69.08.03.14.06.22.1.2.09.39.18.6.25,1.11.48,2.22.95,3.36,1.41.2.09.41.18.6.25,1.33.55,2.68,1.08,4.03,1.6s2.71,1.03,4.07,1.54c.09.04.19.06.29.1,1.27.47,2.56.93,3.85,1.37,1.91.66,3.83,1.3,5.76,1.91.76.25,1.53.48,2.3.72.53.17,1.07.32,1.6.48,1.12.34,2.24.66,3.36.98.61.18,1.23.36,1.84.51,1.08.31,2.17.6,3.27.88.6.15,1.18.31,1.78.46.72.19,1.45.37,2.17.53.58.15,1.17.29,1.77.42,1.17.28,2.35.55,3.53.8.29.06.57.13.86.19,1.39.29,2.77.58,4.17.85.04.01.08.01.1.03,1.53.29,3.06.57,4.6.84,1.4.25,2.78.48,4.2.7.65.1,1.3.2,1.95.29,1.13.18,2.26.33,3.39.48,1.36.19,2.72.36,4.09.52.66.08,1.32.15,1.98.22,1.16.13,2.33.24,3.5.36,1.14.11,2.29.22,3.43.31,2.14.18,4.28.32,6.45.43.1,0,.2.01.31.01.58.04,1.16.06,1.73.09,1.04.04,2.07.09,3.11.11,2.68.1,5.39.14,8.1.14,1.41,0,2.81-.01,4.22-.04.94-.01,1.87-.04,2.8-.06,2.19-.06,4.36-.15,6.52-.27.31-.01.6-.04.89-.05,2.17-.13,4.34-.29,6.48-.47,2-.17,3.99-.37,5.97-.58.29-.04.6-.06.89-.1Z"/>
       </svg>
       <span class="nome">ZERATTA</span>
     </header>
@@ -419,23 +473,30 @@
           <input type="text" id="hp" name="hp" tabindex="-1" autocomplete="off" />
         </div>
 
-        <div>
+        <div class="campo">
           <label class="rotulo" for="nome">Nome</label>
           <input type="text" id="nome" name="nome" placeholder="Nome"
                  autocomplete="given-name" maxlength="80" required />
         </div>
 
-        <div>
+        <div class="campo">
           <label class="rotulo" for="email">Seu e-mail</label>
           <input type="email" id="email" name="email" placeholder="Seu e-mail"
                  autocomplete="email" maxlength="120" required
                  inputmode="email" spellcheck="false" />
         </div>
 
-        <div>
-          <label class="rotulo" for="pais">Seu país</label>
-          <select id="pais" name="pais" autocomplete="country" required>
-            <option value="" selected disabled>Seu país</option>
+        <div class="campo">
+          <label class="rotulo" for="canal">Como você nos conheceu?</label>
+          <select id="canal" name="canal" required>
+            <option value="" selected disabled>Como nos conheceu?</option>
+            <option value="instagram">Instagram</option>
+            <option value="tiktok">TikTok</option>
+            <option value="youtube">YouTube</option>
+            <option value="facebook">Facebook</option>
+            <option value="indicacao">Indicação de um amigo</option>
+            <option value="busca">Busca no Google</option>
+            <option value="outro">Outro</option>
           </select>
         </div>
 
@@ -453,7 +514,7 @@
 
       <div class="pronto" id="pronto" hidden>
         <div class="risco"></div>
-        <h2>Seu lugar está reservado.</h2>
+        <h2 tabindex="-1">Seu lugar está reservado.</h2>
         <p>Você vai saber antes. Fique de olho na sua caixa de entrada, inclusive na pasta de promoções.</p>
       </div>
 
@@ -464,9 +525,27 @@
       <span class="social">
         <a href="https://instagram.com/zeratta" target="_blank" rel="noopener noreferrer" aria-label="Zeratta no Instagram">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <rect x="2.5" y="2.5" width="19" height="19" rx="5.4" stroke="currentColor" stroke-width="1.7"/>
-            <circle cx="12" cy="12" r="4.4" stroke="currentColor" stroke-width="1.7"/>
-            <circle cx="17.6" cy="6.4" r="1.25" fill="currentColor"/>
+            <rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5.4" stroke="currentColor" stroke-width="1.7"/>
+            <circle cx="12" cy="12" r="4.3" stroke="currentColor" stroke-width="1.7"/>
+            <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
+          </svg>
+        </a>
+        <a href="https://tiktok.com/@zerattaoficial" target="_blank" rel="noopener noreferrer" aria-label="Zeratta no TikTok">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M14.2 3.2v11.1a3.9 3.9 0 1 1-3.2-3.84" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M14.2 3.2c.35 2.3 2.1 4.05 4.4 4.3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a href="https://youtube.com/@zeratta" target="_blank" rel="noopener noreferrer" aria-label="Zeratta no YouTube">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="2.3" y="5.4" width="19.4" height="13.2" rx="4.1" stroke="currentColor" stroke-width="1.7"/>
+            <path d="M10.3 9.5l5.1 2.5-5.1 2.5V9.5z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a href="https://facebook.com/zeratta" target="_blank" rel="noopener noreferrer" aria-label="Zeratta no Facebook">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5.4" stroke="currentColor" stroke-width="1.7"/>
+            <path d="M15 8.1h-1.5c-1 0-1.8.8-1.8 1.8v11.5M9.6 12.4h4.9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
           </svg>
         </a>
       </span>
@@ -492,59 +571,52 @@
   var erro   = document.getElementById("erro");
   var pronto = document.getElementById("pronto");
   var legal  = document.getElementById("legal");
-  var select = document.getElementById("pais");
+  var canal  = document.getElementById("canal");
 
-  /* ---------- Países ----------
-     Ordenados em tempo de execução com a colação do português, que
-     é o que põe Áustria depois de Austrália e Índia depois de Ilhas. */
-  var PAISES = "AF:Afeganistão|ZA:África do Sul|AL:Albânia|DE:Alemanha|AD:Andorra|AO:Angola|AG:Antígua e Barbuda|SA:Arábia Saudita|DZ:Argélia|AR:Argentina|AM:Armênia|AU:Austrália|AT:Áustria|AZ:Azerbaijão|BS:Bahamas|BH:Bahrein|BD:Bangladesh|BB:Barbados|BE:Bélgica|BZ:Belize|BJ:Benin|BY:Bielorrússia|BO:Bolívia|BA:Bósnia e Herzegovina|BW:Botsuana|BR:Brasil|BN:Brunei|BG:Bulgária|BF:Burquina Faso|BI:Burundi|BT:Butão|CV:Cabo Verde|KH:Camboja|CM:Camarões|CA:Canadá|QA:Catar|KZ:Cazaquistão|TD:Chade|CL:Chile|CN:China|CY:Chipre|SG:Cingapura|CO:Colômbia|KM:Comores|CG:Congo|CD:Congo (RDC)|KP:Coreia do Norte|KR:Coreia do Sul|CI:Costa do Marfim|CR:Costa Rica|HR:Croácia|CU:Cuba|DK:Dinamarca|DJ:Djibuti|DM:Dominica|EG:Egito|SV:El Salvador|AE:Emirados Árabes Unidos|EC:Equador|ER:Eritreia|SK:Eslováquia|SI:Eslovênia|ES:Espanha|US:Estados Unidos|EE:Estônia|SZ:Eswatini|ET:Etiópia|FJ:Fiji|PH:Filipinas|FI:Finlândia|FR:França|GA:Gabão|GM:Gâmbia|GH:Gana|GE:Geórgia|GD:Granada|GR:Grécia|GT:Guatemala|GY:Guiana|GN:Guiné|GW:Guiné-Bissau|GQ:Guiné Equatorial|HT:Haiti|HN:Honduras|HU:Hungria|YE:Iêmen|MH:Ilhas Marshall|SB:Ilhas Salomão|IN:Índia|ID:Indonésia|IR:Irã|IQ:Iraque|IE:Irlanda|IS:Islândia|IL:Israel|IT:Itália|JM:Jamaica|JP:Japão|JO:Jordânia|KI:Kiribati|KW:Kuwait|LA:Laos|LS:Lesoto|LV:Letônia|LB:Líbano|LR:Libéria|LY:Líbia|LI:Liechtenstein|LT:Lituânia|LU:Luxemburgo|MK:Macedônia do Norte|MG:Madagascar|MY:Malásia|MW:Malaui|MV:Maldivas|ML:Mali|MT:Malta|MA:Marrocos|MU:Maurício|MR:Mauritânia|MX:México|MM:Mianmar|FM:Micronésia|MZ:Moçambique|MD:Moldávia|MC:Mônaco|MN:Mongólia|ME:Montenegro|NA:Namíbia|NR:Nauru|NP:Nepal|NI:Nicarágua|NE:Níger|NG:Nigéria|NO:Noruega|NZ:Nova Zelândia|OM:Omã|NL:Países Baixos|PW:Palau|PS:Palestina|PA:Panamá|PG:Papua-Nova Guiné|PK:Paquistão|PY:Paraguai|PE:Peru|PL:Polônia|PT:Portugal|KE:Quênia|KG:Quirguistão|GB:Reino Unido|CF:República Centro-Africana|DO:República Dominicana|CZ:República Tcheca|RO:Romênia|RW:Ruanda|RU:Rússia|WS:Samoa|SM:San Marino|LC:Santa Lúcia|KN:São Cristóvão e Névis|ST:São Tomé e Príncipe|VC:São Vicente e Granadinas|SC:Seicheles|SN:Senegal|SL:Serra Leoa|RS:Sérvia|SY:Síria|SO:Somália|LK:Sri Lanka|SD:Sudão|SS:Sudão do Sul|SE:Suécia|CH:Suíça|SR:Suriname|TH:Tailândia|TJ:Tajiquistão|TZ:Tanzânia|TL:Timor-Leste|TG:Togo|TO:Tonga|TT:Trinidad e Tobago|TN:Tunísia|TM:Turcomenistão|TR:Turquia|TV:Tuvalu|UA:Ucrânia|UG:Uganda|UY:Uruguai|UZ:Uzbequistão|VU:Vanuatu|VA:Vaticano|VE:Venezuela|VN:Vietnã|ZM:Zâmbia|ZW:Zimbábue";
-
-  (function montaPaises(){
-    var lista = PAISES.split("|").map(function(par){
-      var corte = par.indexOf(":");
-      return { cod: par.slice(0, corte), nome: par.slice(corte + 1) };
-    });
-    lista.sort(function(a, b){ return a.nome.localeCompare(b.nome, "pt-BR"); });
-
-    var frag = document.createDocumentFragment();
-    lista.forEach(function(p){
-      var op = document.createElement("option");
-      op.value = p.cod;
-      op.textContent = p.nome;
-      frag.appendChild(op);
-    });
-    select.appendChild(frag);
-  })();
+  var semMovimento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ---------- Validação ----------
      Conveniência para quem preenche, nunca segurança: o servidor
      revalida tudo. Ver integracao/apps-script/codigo.gs */
   var RE_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
+  var MENSAGENS = {
+    duplicado:          "Este e-mail já está na lista. Seu lugar está garantido.",
+    email_invalido:     "Confira o e-mail: parece faltar alguma coisa.",
+    campos_obrigatorios:"Preencha todos os campos para continuar.",
+    rede:               "Não conseguimos enviar agora. Confira sua conexão e tente de novo.",
+    servidor:           "Algo falhou do nosso lado. Tente de novo em instantes.",
+    nao_configurado:    "O formulário ainda não foi conectado. Escreva para sac@zeratta.com."
+  };
+
   function limpaErro(){
     erro.textContent = "";
-    ["nome", "email", "pais"].forEach(function(id){
+    ["nome", "email", "canal"].forEach(function(id){
       document.getElementById(id).removeAttribute("aria-invalid");
     });
   }
 
   function acusa(campo, mensagem){
     erro.textContent = mensagem;
-    if (campo){
-      campo.setAttribute("aria-invalid", "true");
-      campo.focus();
+    if (!campo) return false;
+
+    campo.setAttribute("aria-invalid", "true");
+    campo.focus();
+
+    // Reiniciar a classe permite tremer de novo no próximo erro:
+    // sem remover, a animação só roda uma vez.
+    var caixa = campo.closest(".campo");
+    if (caixa && !semMovimento){
+      caixa.classList.remove("tremendo");
+      void caixa.offsetWidth;
+      caixa.classList.add("tremendo");
+      caixa.addEventListener("animationend", function limpa(){
+        caixa.classList.remove("tremendo");
+        caixa.removeEventListener("animationend", limpa);
+      });
     }
     return false;
   }
-
-  var MENSAGENS = {
-    duplicado:          "Este e-mail já está na lista. Seu lugar está garantido.",
-    email_invalido:     "Confira o e-mail: parece faltar alguma coisa.",
-    campos_obrigatorios:"Preencha nome, e-mail e país para continuar.",
-    rede:               "Não conseguimos enviar agora. Confira sua conexão e tente de novo.",
-    servidor:           "Algo falhou do nosso lado. Tente de novo em instantes.",
-    nao_configurado:    "O formulário ainda não foi conectado. Escreva para sac@zeratta.com."
-  };
 
   form.addEventListener("submit", function(ev){
     ev.preventDefault();
@@ -558,9 +630,9 @@
        dizer "você é um robô" só ensina o robô a passar da próxima. */
     if (hp.value !== ""){ sucesso(); return; }
 
-    if (nome.value.trim() === "")          return acusa(nome,  MENSAGENS.campos_obrigatorios);
+    if (nome.value.trim() === "")           return acusa(nome,  MENSAGENS.campos_obrigatorios);
     if (!RE_EMAIL.test(email.value.trim())) return acusa(email, MENSAGENS.email_invalido);
-    if (select.value === "")                return acusa(select, MENSAGENS.campos_obrigatorios);
+    if (canal.value === "")                 return acusa(canal, MENSAGENS.campos_obrigatorios);
 
     if (ENDPOINT === ""){
       console.error("[Zeratta] ENDPOINT vazio em index.html. Ver integracao/apps-script/README.md");
@@ -577,7 +649,7 @@
       body: JSON.stringify({
         nome:   nome.value.trim(),
         email:  email.value.trim().toLowerCase(),
-        pais:   select.value,
+        canal:  canal.value,
         origem: location.hostname,
         hp:     ""
       })
@@ -601,14 +673,28 @@
   function enviando(estado){
     cta.disabled = estado;
     cta.textContent = estado ? "Enviando" : "Reservar meu lugar";
+    if (estado) cta.setAttribute("data-estado", "enviando");
+    else        cta.removeAttribute("data-estado");
   }
 
+  /* O formulário sai, a confirmação entra. Em movimento reduzido a
+     troca é instantânea, e não uma coreografia acelerada. */
   function sucesso(){
-    form.hidden   = true;
-    legal.hidden  = true;
-    pronto.hidden = false;
-    pronto.querySelector("h2").setAttribute("tabindex", "-1");
-    pronto.querySelector("h2").focus();
+    var troca = function(){
+      form.hidden  = true;
+      legal.hidden = true;
+      pronto.hidden = false;
+      requestAnimationFrame(function(){
+        pronto.classList.add("entrando");
+        pronto.querySelector("h2").focus();
+      });
+    };
+
+    if (semMovimento){ troca(); return; }
+
+    form.classList.add("saindo");
+    legal.classList.add("saindo");
+    setTimeout(troca, 340);
   }
 })();
 </script>

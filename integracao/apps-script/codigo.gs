@@ -13,13 +13,18 @@
  */
 
 var ABA = 'leads';
-var CABECALHO = ['timestamp', 'nome', 'email', 'pais', 'origem'];
+var CABECALHO = ['timestamp', 'nome', 'email', 'canal', 'origem'];
 
 /** Aceita qualquer coisa com uma arroba e um ponto depois dela. */
 var RE_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-/** Código ISO 3166-1 alfa-2, que é o que o formulário envia. */
-var RE_PAIS = /^[A-Z]{2}$/;
+/**
+ * Canais de descoberta oferecidos pelo formulário. Lista fechada,
+ * e não texto livre: é o que mantém a planilha somável em vez de
+ * virar uma coleção de grafias diferentes da mesma coisa.
+ * Ao mexer aqui, mexa também no <select id="canal"> do index.html.
+ */
+var CANAIS = ['instagram', 'tiktok', 'youtube', 'facebook', 'indicacao', 'busca', 'outro'];
 
 
 /**
@@ -70,13 +75,13 @@ function doPost(e) {
 
   var nome  = String(dados.nome  || '').trim().slice(0, 80);
   var email = String(dados.email || '').trim().toLowerCase();
-  var pais  = String(dados.pais  || '').trim().toUpperCase();
+  var canal = String(dados.canal || '').trim().toLowerCase();
 
   // O cliente já validou, mas validação de cliente é conveniência e
   // não segurança: qualquer um pode chamar esta URL direto.
-  if (!nome || !email || !pais)      return json({ ok: false, erro: 'campos_obrigatorios' });
-  if (!RE_EMAIL.test(email))         return json({ ok: false, erro: 'email_invalido' });
-  if (!RE_PAIS.test(pais))           return json({ ok: false, erro: 'campos_obrigatorios' });
+  if (!nome || !email || !canal)       return json({ ok: false, erro: 'campos_obrigatorios' });
+  if (!RE_EMAIL.test(email))           return json({ ok: false, erro: 'email_invalido' });
+  if (CANAIS.indexOf(canal) === -1)    return json({ ok: false, erro: 'campos_obrigatorios' });
 
   // O campo `origem` é declarado pelo cliente e por isso NÃO vale
   // como segurança: qualquer um pode forjá-lo. Serve só para separar
@@ -109,7 +114,7 @@ function doPost(e) {
       return json({ ok: false, erro: 'duplicado' });
     }
 
-    aba.appendRow([new Date().toISOString(), nome, email, pais, origem]);
+    aba.appendRow([new Date().toISOString(), nome, email, canal, origem]);
     return json({ ok: true });
 
   } catch (err) {

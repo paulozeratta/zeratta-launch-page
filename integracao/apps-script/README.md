@@ -79,7 +79,7 @@ caminhos tortos, que são os que quebram em produção:
 
 - e-mail sem arroba, para ver `Confira o e-mail`
 - o mesmo e-mail duas vezes, para ver `Este e-mail já está na lista`
-- campo vazio, para ver `Preencha nome, e-mail e país`
+- campo vazio, para ver `Preencha todos os campos`
 
 Apague as linhas de teste da planilha ao terminar.
 
