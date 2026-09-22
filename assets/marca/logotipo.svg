@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 2000">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        fill: #1d1d1b;
+        font-family: ZerattaMaison-Regular, 'Zeratta Maison';
+        font-size: 500.04px;
+      }
+
+      .cls-3 {
+        letter-spacing: -.09em;
+      }
+
+      .cls-4 {
+        letter-spacing: -.08em;
+      }
+
+      .cls-5 {
+        letter-spacing: 0em;
+      }
+
+      .cls-6 {
+        letter-spacing: -.32em;
+      }
+    </style>
+  </defs>
+  <g id="_BG_" data-name="[BG]">
+    <rect class="cls-1" x=".33" y="-.11" width="1999.68" height="2000"/>
+  </g>
+  <g id="_ZR_Fundo_Preto" data-name="[ZR] Fundo Preto">
+    <text class="cls-2" transform="translate(306.6824 1157.7951)"><tspan x="0" y="0">ZE</tspan><tspan class="cls-6" x="378.03" y="0">R</tspan><tspan class="cls-3" x="568.54" y="0">a</tspan><tspan class="cls-5" x="779.05" y="0">T</tspan><tspan class="cls-4" x="973.56" y="0">TA</tspan></text>
+  </g>
+</svg>
