@@ -33,8 +33,9 @@
      ZERATTA · página de lançamento
      Bordô escuro e prata. Metade esquerda é a fotografia, metade
      direita é o convite. A costura entre as duas é seca de
-     propósito: é o único gesto forte em repouso. O resto da
-     personalidade aparece ao toque.
+     propósito. O painel tem um fundo que respira devagar, e é ele
+     que dá material ao vidro do menu: blur sobre branco liso não
+     lê como vidro, porque não há nada atrás para desfocar.
      ============================================================ */
 
   :root{
@@ -47,12 +48,11 @@
     --linha:#E3E1E4;
     --linha-forte:#CBC9CF;
 
-    /* Bordô. O profundo é a cor da marca e serve de fundo, não de
-       botão: em 18:1 contra o branco ele lê como preto. O do botão
-       é claro o bastante para ser vinho e escuro o bastante para
-       ainda ser bordô escuro. */
-    --bordo:#5A1522;
-    --bordo-claro:#711B2D;
+    /* Bordô. O profundo é a cor da marca e fica atrás da fotografia:
+       a 19,5:1 contra o branco ele lê como preto e não serve de
+       botão. O do botão é escuro sem ser preto, em 16,1:1. */
+    --bordo:#40101A;
+    --bordo-claro:#55171F;
     --bordo-fundo:#1A0709;
 
     /* Prata. Prata de verdade (#C0C0C0) some no branco, então o tom
@@ -112,6 +112,10 @@
   /* ---------- O painel ---------- */
 
   .panel{
+    position:relative;
+    /* Sem isolation:isolate aqui. Ele cria uma raiz de composição e
+       limita o que o backdrop-filter do menu consegue desfocar atrás
+       de si. O empilhamento já é resolvido pelos z-index abaixo. */
     display:flex;
     flex-direction:column;
     min-height:100vh;
@@ -120,12 +124,49 @@
     background:var(--papel);
   }
 
+  /* ---------- O fundo que respira ----------
+     Três manchas muito diluídas que derivam em ciclos longos e
+     dessincronizados, para o movimento nunca parecer um laço. São
+     elas que o vidro do menu desfoca. Opacidade baixa de propósito:
+     o texto corrente passa por cima delas e não pode perder
+     contraste. */
+
+  .ambiente{
+    position:absolute;inset:0;
+    overflow:hidden;pointer-events:none;
+    z-index:0;
+    opacity:.9;
+    transition:opacity .8s var(--ease);
+  }
+  .panel.menu-aberto .ambiente{opacity:1}
+
+  .bolha{position:absolute;border-radius:50%;filter:blur(54px);will-change:transform}
+  .b1{
+    width:clamp(220px,44%,540px);aspect-ratio:1;top:-12%;right:-14%;
+    background:radial-gradient(circle,rgba(64,16,26,.20),rgba(64,16,26,0) 68%);
+    animation:deriva1 38s ease-in-out infinite;
+  }
+  .b2{
+    width:clamp(200px,38%,470px);aspect-ratio:1;bottom:-10%;left:-16%;
+    background:radial-gradient(circle,rgba(142,140,150,.24),rgba(142,140,150,0) 70%);
+    animation:deriva2 47s ease-in-out infinite;
+  }
+  .b3{
+    width:clamp(160px,30%,390px);aspect-ratio:1;top:44%;right:8%;
+    background:radial-gradient(circle,rgba(90,21,34,.12),rgba(90,21,34,0) 72%);
+    animation:deriva3 56s ease-in-out infinite;
+  }
+
+  @keyframes deriva1{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-7%,7%,0) scale(1.12)}}
+  @keyframes deriva2{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(9%,-6%,0) scale(1.08)}}
+  @keyframes deriva3{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-6%,-9%,0) scale(.9)}}
+
   /* Marca, conteúdo e rodapé dividem UMA coluna centralizada. Sem
      isso, num ultrawide o rodapé se espalha por 1700px enquanto o
      formulário ocupa 480px, e os três param de parecer o mesmo objeto. */
   .brand,
   .content,
-  .foot{width:100%;max-width:31rem;margin-inline:auto}
+  .foot{position:relative;z-index:1;width:100%;max-width:31rem;margin-inline:auto}
 
   /* Piso de respiro. As margens automáticas de .content zeram quando
      o conteúdo cresce, e sem este piso o monograma encosta no título. */
@@ -191,9 +232,11 @@
     pointer-events:none;
   }
   .campo:focus-within::after{transform:scaleX(1)}
+  /* Com o menu aberto o filete atrapalharia a borda do vidro. */
+  .campo-menu:has(.selecao[aria-expanded="true"])::after{transform:scaleX(0)}
 
   .form input,
-  .form select{
+  .selecao{
     width:100%;
     height:var(--campo);
     padding:0 1.05rem;
@@ -215,36 +258,133 @@
     color:var(--apagado);
     opacity:1;
   }
-  /* Enquanto nada foi escolhido, o select é :invalid e se veste de
-     marcador de lugar. Escolhido, volta ao texto normal. */
-  .form select:invalid{
-    text-transform:uppercase;
-    letter-spacing:.12em;
-    font-size:.72rem;
-    color:var(--apagado);
-  }
-  .form select{
-    appearance:none;
-    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%238E8C96' stroke-width='1.3' stroke-linecap='round' stroke-linejoin='round'/></svg>");
-    background-repeat:no-repeat;
-    background-position:right 1.1rem center;
-    padding-right:2.6rem;
-    cursor:pointer;
-  }
-  .form select option{text-transform:none;letter-spacing:normal;font-size:.88rem;color:var(--tinta)}
 
   .form input:focus,
-  .form select:focus{
+  .selecao:focus-visible{
     outline:none;
     border-color:var(--prata);
     box-shadow:0 0 0 3px rgba(142,140,150,.15);
   }
   .form input[aria-invalid="true"],
-  .form select[aria-invalid="true"]{border-color:var(--erro)}
+  .selecao[aria-invalid="true"]{border-color:var(--erro)}
+
+  /* ---------- O menu de vidro ----------
+     Um <select> nativo não aceita estilo no painel de opções: o
+     sistema operacional desenha aquilo. Daí a lista própria, com o
+     padrão combobox da ARIA (o foco fica no botão e a opção corrente
+     é apontada por aria-activedescendant). */
+
+  .selecao{
+    display:flex;align-items:center;justify-content:space-between;gap:1rem;
+    text-align:left;cursor:pointer;
+  }
+  .selecao-texto{font-size:.88rem;color:var(--tinta)}
+  .selecao-texto[data-vazio]{
+    text-transform:uppercase;letter-spacing:.12em;
+    font-size:.72rem;color:var(--apagado);
+  }
+  .selecao .seta{
+    width:12px;height:8px;flex:none;color:var(--prata);
+    transition:transform .45s var(--mola), color .3s var(--ease);
+  }
+  .selecao[aria-expanded="true"]{
+    border-color:var(--prata);
+    box-shadow:0 0 0 3px rgba(142,140,150,.15);
+  }
+  .selecao[aria-expanded="true"] .seta{transform:rotate(180deg);color:var(--tinta)}
+
+  .vidro{
+    position:absolute;top:calc(100% + .5rem);left:0;right:0;z-index:30;
+    list-style:none;padding:.4rem;
+
+    /* Sete opções não cabem em tela baixa, e uma lista absoluta que
+       transborda estica o documento e cria barra de rolagem na
+       página inteira. Teto com rolagem própria resolve os dois. */
+    max-height:min(17.5rem,44vh);
+    overflow-y:auto;
+    overscroll-behavior:contain;
+
+    /* O vidro.
+       Vidro fosco de verdade NÃO é transparente: os painéis do iOS e
+       do macOS ficam entre 85% e 95% opacos. O efeito vem do desfoque
+       e do tingimento, não de enxergar através. Opacidade baixa sem
+       blur não é estética, é texto sobreposto a texto.
+       A saturação levantada é o que impede o branco de achatar. */
+    background:linear-gradient(158deg,rgba(255,255,255,.88),rgba(249,245,246,.83));
+    -webkit-backdrop-filter:blur(30px) saturate(1.9);
+    backdrop-filter:blur(30px) saturate(1.9);
+    border:1px solid rgba(255,255,255,.85);
+    border-radius:13px;
+    box-shadow:
+      0 28px 64px -20px rgba(26,7,9,.34),
+      0 3px 12px -5px rgba(26,7,9,.14),
+      inset 0 1px 0 rgba(255,255,255,.9);
+
+    opacity:0;
+    transform:translateY(-12px) scale(.96);
+    transform-origin:top center;
+    transition:opacity .26s var(--ease), transform .38s var(--mola);
+  }
+
+  /* Sem desfoque do fundo, translucidez deixa de ser estética e vira
+     problema de leitura: o que está atrás aparece nítido por baixo do
+     texto. Onde o recurso não existe, o painel fica quase sólido. */
+  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+    .vidro{background:linear-gradient(158deg,rgba(255,255,255,.98),rgba(248,244,245,.97))}
+  }
+
+  /* Perto da base da janela, a lista abre para cima. */
+  .vidro.para-cima{
+    top:auto;bottom:calc(100% + .5rem);
+    transform-origin:bottom center;
+    transform:translateY(12px) scale(.96);
+  }
+  .vidro.aberta{opacity:1;transform:none}
+
+  .vidro::-webkit-scrollbar{width:4px}
+  .vidro::-webkit-scrollbar-thumb{background:var(--prata-clara);border-radius:2px}
+  .vidro::-webkit-scrollbar-track{background:transparent}
+
+  .vidro li{
+    display:flex;align-items:center;justify-content:space-between;gap:.8rem;
+    padding:.72rem .85rem;
+    border-radius:8px;
+    font-size:.86rem;line-height:1.3;
+    color:var(--tinta-suave);
+    cursor:pointer;
+    opacity:0;
+    transition:background-color .22s var(--ease), color .22s var(--ease);
+  }
+  /* A entrada é animação, não transição: transição com delay por item
+     deixaria o hover lento depois que a lista já abriu. */
+  .vidro.aberta li{animation:opcaoEntra .36s var(--ease) both}
+  .vidro.aberta li:nth-child(1){animation-delay:.03s}
+  .vidro.aberta li:nth-child(2){animation-delay:.06s}
+  .vidro.aberta li:nth-child(3){animation-delay:.09s}
+  .vidro.aberta li:nth-child(4){animation-delay:.12s}
+  .vidro.aberta li:nth-child(5){animation-delay:.15s}
+  .vidro.aberta li:nth-child(6){animation-delay:.18s}
+  .vidro.aberta li:nth-child(7){animation-delay:.21s}
+
+  @keyframes opcaoEntra{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+
+  .vidro li.ativa{background:rgba(64,16,26,.075);color:var(--tinta)}
+  .vidro li .ponto{
+    width:5px;height:5px;border-radius:50%;flex:none;
+    background:var(--prata);
+    opacity:0;transform:scale(.4);
+    transition:opacity .3s var(--ease), transform .35s var(--mola);
+  }
+  .vidro li[aria-selected="true"] .ponto{opacity:1;transform:none}
 
   /* ---------- Botão ---------- */
 
   .cta{
+    /* Posição do cursor dentro do botão, escrita pelo JS. É ela que
+       faz a luz seguir a mão em vez de percorrer um trajeto fixo. */
+    --mx:50%;
+    --my:50%;
+
     position:relative;
     overflow:hidden;
     height:var(--campo);
@@ -259,29 +399,59 @@
     border:0;
     border-radius:3px;
     cursor:pointer;
-    transition:background-color .4s var(--ease),
+    transition:background-color .5s var(--ease),
+               letter-spacing .55s var(--ease),
                transform .2s var(--ease),
                opacity .3s var(--ease);
   }
-  .cta:hover{background:var(--bordo-claro)}
-  .cta:active{transform:scale(.985)}
+
+  /* As letras se abrem devagar. É o gesto de casa de moda, e o que
+     faz o hover parecer decisão de tipografia e não efeito de botão. */
+  .cta:hover:not([disabled]){background:var(--bordo-claro);letter-spacing:.265em}
+
+  .cta:active:not([disabled]){transform:scale(.985)}
   .cta:focus-visible{outline:2px solid var(--prata);outline-offset:3px}
   .cta[disabled]{opacity:.62;cursor:default}
-  .cta[disabled]:active{transform:none}
 
-  /* O brilho de prata que atravessa o botão. Passa uma vez no hover
-     e fica em laço enquanto envia, no lugar de um spinner genérico. */
-  .cta::after{
+  /* A luz de prata acompanha o cursor. Reagir à pessoa é o que separa
+     isto de um brilho que atravessa sempre igual, com ou sem ninguém. */
+  .cta::before{
     content:"";
     position:absolute;inset:0;
-    background:linear-gradient(105deg,transparent 38%,var(--prata-brilho) 50%,transparent 62%);
-    transform:translateX(-130%);
+    background:radial-gradient(200px circle at var(--mx) var(--my),
+               var(--prata-brilho), transparent 60%);
+    opacity:0;
+    transition:opacity .5s var(--ease);
     pointer-events:none;
   }
-  .cta:hover::after{animation:brilho .95s var(--ease)}
-  .cta[data-estado="enviando"]::after{animation:brilho 1.15s var(--ease) infinite}
+  .cta:hover:not([disabled])::before{opacity:1}
 
-  @keyframes brilho{to{transform:translateX(130%)}}
+  /* Enquanto envia, um fio de prata percorre a base. Diz "estou
+     trabalhando" sem o spinner que toda página tem. */
+  .cta::after{
+    content:"";
+    position:absolute;left:0;right:0;bottom:0;height:1px;
+    background:linear-gradient(90deg,transparent,var(--prata-clara),transparent);
+    transform:translateX(-100%);
+    opacity:0;
+    pointer-events:none;
+  }
+  .cta[data-estado="enviando"]::after{
+    opacity:1;
+    animation:percorre 1.15s linear infinite;
+  }
+  @keyframes percorre{to{transform:translateX(100%)}}
+
+  /* A onda nasce no ponto exato do clique, e não no centro. */
+  .cta .onda{
+    position:absolute;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(226,224,232,.42),rgba(226,224,232,0) 68%);
+    transform:translate(-50%,-50%) scale(0);
+    pointer-events:none;
+    animation:onda .72s var(--ease) forwards;
+  }
+  @keyframes onda{to{transform:translate(-50%,-50%) scale(1);opacity:0}}
 
   /* ---------- Erro ---------- */
 
@@ -358,27 +528,34 @@
   @keyframes surge{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
   @keyframes risca{to{stroke-dashoffset:0}}
 
-  .visual img{animation:assenta 1.8s var(--ease) both}
+  /* A coreografia vive sob .abrindo, e o JS retira a classe quando ela
+     termina. Não é capricho: um elemento com animação declarada guarda
+     uma camada de composição, e essa camada corta a raiz do
+     backdrop-filter de tudo que estiver dentro dele. Enquanto .form
+     ficava animado para sempre, o menu de vidro não tinha o que
+     desfocar e o texto atrás aparecia nítido sob ele. */
 
-  .brand  {animation:sobe .85s var(--ease) .05s both}
-  h1      {animation:sobe .85s var(--ease) .14s both}
-  .lede   {animation:sobe .85s var(--ease) .23s both}
-  .perks li:nth-child(1){animation:sobe .8s var(--ease) .32s both}
-  .perks li:nth-child(2){animation:sobe .8s var(--ease) .39s both}
-  .perks li:nth-child(3){animation:sobe .8s var(--ease) .46s both}
-  .form   {animation:sobe .85s var(--ease) .55s both}
-  .legal  {animation:sobe .85s var(--ease) .64s both}
-  .foot   {animation:sobe .85s var(--ease) .72s both}
+  .abrindo .visual img{animation:assenta 1.8s var(--ease) both}
+
+  .abrindo .brand  {animation:sobe .85s var(--ease) .05s both}
+  .abrindo h1      {animation:sobe .85s var(--ease) .14s both}
+  .abrindo .lede   {animation:sobe .85s var(--ease) .23s both}
+  .abrindo .perks li:nth-child(1){animation:sobe .8s var(--ease) .32s both}
+  .abrindo .perks li:nth-child(2){animation:sobe .8s var(--ease) .39s both}
+  .abrindo .perks li:nth-child(3){animation:sobe .8s var(--ease) .46s both}
+  .abrindo .form   {animation:sobe .85s var(--ease) .55s both}
+  .abrindo .legal  {animation:sobe .85s var(--ease) .64s both}
+  .abrindo .foot   {animation:sobe .85s var(--ease) .72s both}
 
   /* Os checks se desenham depois que o item já chegou. */
-  .tick circle{stroke-dasharray:45;stroke-dashoffset:45;animation:risca .7s var(--ease) both}
-  .tick path  {stroke-dasharray:14;stroke-dashoffset:14;animation:risca .45s var(--ease) both}
-  .perks li:nth-child(1) .tick circle{animation-delay:.42s}
-  .perks li:nth-child(1) .tick path  {animation-delay:.80s}
-  .perks li:nth-child(2) .tick circle{animation-delay:.49s}
-  .perks li:nth-child(2) .tick path  {animation-delay:.87s}
-  .perks li:nth-child(3) .tick circle{animation-delay:.56s}
-  .perks li:nth-child(3) .tick path  {animation-delay:.94s}
+  .abrindo .tick circle{stroke-dasharray:45;stroke-dashoffset:45;animation:risca .7s var(--ease) both}
+  .abrindo .tick path  {stroke-dasharray:14;stroke-dashoffset:14;animation:risca .45s var(--ease) both}
+  .abrindo .perks li:nth-child(1) .tick circle{animation-delay:.42s}
+  .abrindo .perks li:nth-child(1) .tick path  {animation-delay:.80s}
+  .abrindo .perks li:nth-child(2) .tick circle{animation-delay:.49s}
+  .abrindo .perks li:nth-child(2) .tick path  {animation-delay:.87s}
+  .abrindo .perks li:nth-child(3) .tick circle{animation-delay:.56s}
+  .abrindo .perks li:nth-child(3) .tick path  {animation-delay:.94s}
 
   /* ---------- Empilhado ---------- */
 
@@ -402,8 +579,9 @@
   }
 
   /* ---------- Movimento reduzido ----------
-     Quem pediu menos movimento recebe a página inteira de uma vez,
-     e não uma versão acelerada da coreografia. */
+     Quem pediu menos movimento recebe a página inteira de uma vez, e
+     não uma versão acelerada da coreografia. O fundo para de derivar,
+     porque movimento perpétuo é justamente o que incomoda. */
 
   @media (prefers-reduced-motion:reduce){
     *,*::before,*::after{
@@ -411,12 +589,13 @@
       animation-iteration-count:1 !important;
       transition-duration:.01ms !important;
     }
+    .bolha{animation:none !important}
     .pronto .risco{width:44px}
     .pronto h2,.pronto p{opacity:1;transform:none}
   }
 </style>
 </head>
-<body>
+<body class="abrindo">
 
 <main class="split">
 
@@ -429,7 +608,13 @@
   </figure>
 
   <!-- ============ O convite ============ -->
-  <section class="panel">
+  <section class="panel" id="painel">
+
+    <div class="ambiente" aria-hidden="true">
+      <span class="bolha b1"></span>
+      <span class="bolha b2"></span>
+      <span class="bolha b3"></span>
+    </div>
 
     <header class="brand">
       <svg class="mark" viewBox="412 488 1237 971" fill="currentColor" role="img" aria-label="Monograma ZERATTA">
@@ -486,23 +671,34 @@
                  inputmode="email" spellcheck="false" />
         </div>
 
-        <div class="campo">
-          <label class="rotulo" for="canal">Como você nos conheceu?</label>
-          <select id="canal" name="canal" required>
-            <option value="" selected disabled>Como nos conheceu?</option>
-            <option value="instagram">Instagram</option>
-            <option value="tiktok">TikTok</option>
-            <option value="youtube">YouTube</option>
-            <option value="facebook">Facebook</option>
-            <option value="indicacao">Indicação de um amigo</option>
-            <option value="busca">Busca no Google</option>
-            <option value="outro">Outro</option>
-          </select>
+        <div class="campo campo-menu">
+          <span class="rotulo" id="canalRotulo">Como você nos conheceu?</span>
+          <button type="button" class="selecao" id="canalBotao"
+                  role="combobox" aria-haspopup="listbox" aria-expanded="false"
+                  aria-controls="canalLista" aria-labelledby="canalRotulo canalBotao">
+            <span class="selecao-texto" id="canalTexto" data-vazio>Como nos conheceu?</span>
+            <svg class="seta" viewBox="0 0 12 8" fill="none" aria-hidden="true">
+              <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.3"
+                    stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <ul class="vidro" id="canalLista" role="listbox" aria-labelledby="canalRotulo" hidden>
+            <li role="option" id="op-instagram" data-valor="instagram" aria-selected="false">Instagram<span class="ponto"></span></li>
+            <li role="option" id="op-tiktok"    data-valor="tiktok"    aria-selected="false">TikTok<span class="ponto"></span></li>
+            <li role="option" id="op-youtube"   data-valor="youtube"   aria-selected="false">YouTube<span class="ponto"></span></li>
+            <li role="option" id="op-facebook"  data-valor="facebook"  aria-selected="false">Facebook<span class="ponto"></span></li>
+            <li role="option" id="op-indicacao" data-valor="indicacao" aria-selected="false">Indicação de um amigo<span class="ponto"></span></li>
+            <li role="option" id="op-busca"     data-valor="busca"     aria-selected="false">Busca no Google<span class="ponto"></span></li>
+            <li role="option" id="op-outro"     data-valor="outro"     aria-selected="false">Outro<span class="ponto"></span></li>
+          </ul>
+          <input type="hidden" id="canal" name="canal" value="" />
         </div>
 
         <p class="erro" id="erro" role="alert"></p>
 
-        <button type="submit" class="cta" id="cta">Reservar meu lugar</button>
+        <button type="submit" class="cta" id="cta">
+          <span class="cta-texto" id="ctaTexto">Reservar meu lugar</span>
+        </button>
       </form>
 
       <p class="legal" id="legal">
@@ -566,18 +762,153 @@
      ------------------------------------------------------------ */
   var ENDPOINT = "";
 
-  var form   = document.getElementById("form");
-  var cta    = document.getElementById("cta");
+  var painel   = document.getElementById("painel");
+  var form     = document.getElementById("form");
+  var cta      = document.getElementById("cta");
+  var ctaTexto = document.getElementById("ctaTexto");
   var erro   = document.getElementById("erro");
   var pronto = document.getElementById("pronto");
   var legal  = document.getElementById("legal");
-  var canal  = document.getElementById("canal");
 
   var semMovimento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  /* ---------- Validação ----------
+  /* Retira a coreografia de entrada depois que ela termina. Elemento
+     com animação declarada guarda uma camada de composição, e essa
+     camada vira a raiz do backdrop-filter de tudo que está dentro
+     dele: enquanto .form ficava animado, o menu de vidro não tinha o
+     que desfocar e o texto atrás aparecia nítido sob ele.
+     A mais longa é a da fotografia, 1,8s. */
+  setTimeout(function(){
+    document.body.classList.remove("abrindo");
+  }, semMovimento ? 60 : 2000);
+
+  /* ============================================================
+     O menu de vidro
+     Padrão combobox da ARIA: o foco NÃO entra na lista. Ele fica no
+     botão, e a opção corrente é anunciada por aria-activedescendant.
+     É o que mantém o teclado previsível sem reger foco à mão.
+     ============================================================ */
+
+  var botao   = document.getElementById("canalBotao");
+  var lista   = document.getElementById("canalLista");
+  var texto   = document.getElementById("canalTexto");
+  var oculto  = document.getElementById("canal");
+  var opcoes  = Array.prototype.slice.call(lista.querySelectorAll('[role="option"]'));
+  var aberto  = false;
+  var ativo   = -1;
+
+  function abrir(){
+    if (aberto) return;
+    aberto = true;
+    lista.hidden = false;
+    botao.setAttribute("aria-expanded", "true");
+    painel.classList.add("menu-aberto");
+
+    // Decide o lado antes de animar. Medir com a lista já visível é o
+    // único jeito de saber a altura real, que muda com o teto e a fonte.
+    lista.classList.remove("para-cima");
+    var caixa = botao.getBoundingClientRect();
+    var altura = lista.offsetHeight;
+    var folga = 16;
+    var cabeAbaixo = caixa.bottom + altura + folga <= window.innerHeight;
+    var cabeAcima  = caixa.top - altura - folga >= 0;
+    if (!cabeAbaixo && cabeAcima) lista.classList.add("para-cima");
+
+    // Um quadro de respiro para o navegador registrar o estado
+    // inicial, senão a transição não tem de onde partir.
+    requestAnimationFrame(function(){ lista.classList.add("aberta"); });
+
+    var escolhida = opcoes.findIndex(function(o){
+      return o.getAttribute("aria-selected") === "true";
+    });
+    destacar(escolhida >= 0 ? escolhida : 0);
+  }
+
+  function fechar(devolveFoco){
+    if (!aberto) return;
+    aberto = false;
+    botao.setAttribute("aria-expanded", "false");
+    botao.removeAttribute("aria-activedescendant");
+    painel.classList.remove("menu-aberto");
+    lista.classList.remove("aberta");
+
+    var esconder = function(){ lista.hidden = true; };
+    if (semMovimento) esconder(); else setTimeout(esconder, 240);
+
+    opcoes.forEach(function(o){ o.classList.remove("ativa"); });
+    ativo = -1;
+    if (devolveFoco) botao.focus();
+  }
+
+  function destacar(i){
+    if (i < 0) i = opcoes.length - 1;
+    if (i >= opcoes.length) i = 0;
+    ativo = i;
+    opcoes.forEach(function(o, j){ o.classList.toggle("ativa", j === i); });
+    botao.setAttribute("aria-activedescendant", opcoes[i].id);
+  }
+
+  function escolher(i){
+    var op = opcoes[i];
+    opcoes.forEach(function(o){ o.setAttribute("aria-selected", "false"); });
+    op.setAttribute("aria-selected", "true");
+    oculto.value = op.getAttribute("data-valor");
+    texto.textContent = op.childNodes[0].nodeValue.trim();
+    texto.removeAttribute("data-vazio");
+    botao.removeAttribute("aria-invalid");
+    fechar(true);
+  }
+
+  botao.addEventListener("click", function(){
+    aberto ? fechar(true) : abrir();
+  });
+
+  botao.addEventListener("keydown", function(ev){
+    var k = ev.key;
+
+    if (!aberto){
+      if (k === "ArrowDown" || k === "ArrowUp" || k === "Enter" || k === " "){
+        ev.preventDefault();
+        abrir();
+      }
+      return;
+    }
+
+    if (k === "ArrowDown")      { ev.preventDefault(); destacar(ativo + 1); }
+    else if (k === "ArrowUp")   { ev.preventDefault(); destacar(ativo - 1); }
+    else if (k === "Home")      { ev.preventDefault(); destacar(0); }
+    else if (k === "End")       { ev.preventDefault(); destacar(opcoes.length - 1); }
+    else if (k === "Enter" || k === " "){ ev.preventDefault(); if (ativo >= 0) escolher(ativo); }
+    else if (k === "Escape")    { ev.preventDefault(); fechar(true); }
+    else if (k === "Tab")       { fechar(false); }
+    else if (k.length === 1){
+      // Digitar uma letra pula para a próxima opção que começa com ela.
+      var letra = k.toLowerCase();
+      for (var n = 1; n <= opcoes.length; n++){
+        var idx = (ativo + n) % opcoes.length;
+        if (opcoes[idx].textContent.trim().toLowerCase().indexOf(letra) === 0){
+          destacar(idx);
+          break;
+        }
+      }
+    }
+  });
+
+  opcoes.forEach(function(op, i){
+    op.addEventListener("click", function(){ escolher(i); });
+    op.addEventListener("mousemove", function(){ if (ativo !== i) destacar(i); });
+  });
+
+  document.addEventListener("pointerdown", function(ev){
+    if (aberto && !ev.target.closest(".campo-menu")) fechar(false);
+  });
+
+  /* ============================================================
+     Validação
      Conveniência para quem preenche, nunca segurança: o servidor
-     revalida tudo. Ver integracao/apps-script/codigo.gs */
+     revalida tudo. Ver integracao/apps-script/codigo.gs
+     ============================================================ */
+
   var RE_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
   var MENSAGENS = {
@@ -586,14 +917,14 @@
     campos_obrigatorios:"Preencha todos os campos para continuar.",
     rede:               "Não conseguimos enviar agora. Confira sua conexão e tente de novo.",
     servidor:           "Algo falhou do nosso lado. Tente de novo em instantes.",
-    nao_configurado:    "O formulário ainda não foi conectado. Escreva para sac@zeratta.com."
+    nao_configurado:    "Estamos finalizando os últimos ajustes. Escreva para sac@zeratta.com e guardamos seu lugar."
   };
 
   function limpaErro(){
     erro.textContent = "";
-    ["nome", "email", "canal"].forEach(function(id){
-      document.getElementById(id).removeAttribute("aria-invalid");
-    });
+    document.getElementById("nome").removeAttribute("aria-invalid");
+    document.getElementById("email").removeAttribute("aria-invalid");
+    botao.removeAttribute("aria-invalid");
   }
 
   function acusa(campo, mensagem){
@@ -632,7 +963,7 @@
 
     if (nome.value.trim() === "")           return acusa(nome,  MENSAGENS.campos_obrigatorios);
     if (!RE_EMAIL.test(email.value.trim())) return acusa(email, MENSAGENS.email_invalido);
-    if (canal.value === "")                 return acusa(canal, MENSAGENS.campos_obrigatorios);
+    if (oculto.value === "")                return acusa(botao, MENSAGENS.campos_obrigatorios);
 
     if (ENDPOINT === ""){
       console.error("[Zeratta] ENDPOINT vazio em index.html. Ver integracao/apps-script/README.md");
@@ -649,7 +980,7 @@
       body: JSON.stringify({
         nome:   nome.value.trim(),
         email:  email.value.trim().toLowerCase(),
-        canal:  canal.value,
+        canal:  oculto.value,
         origem: location.hostname,
         hp:     ""
       })
@@ -670,9 +1001,47 @@
     });
   });
 
+  /* ---------- O botão reage à mão ----------
+     A luz segue o cursor e a onda nasce onde o dedo tocou. Um brilho
+     que percorre sempre o mesmo trajeto acontece com ou sem ninguém
+     ali, e é isso que faz parecer enfeite em vez de resposta. */
+
+  cta.addEventListener("pointermove", function(ev){
+    var r = cta.getBoundingClientRect();
+    cta.style.setProperty("--mx", (ev.clientX - r.left) + "px");
+    cta.style.setProperty("--my", (ev.clientY - r.top) + "px");
+  });
+
+  cta.addEventListener("pointerleave", function(){
+    cta.style.setProperty("--mx", "50%");
+    cta.style.setProperty("--my", "50%");
+  });
+
+  cta.addEventListener("pointerdown", function(ev){
+    if (cta.disabled || semMovimento) return;
+
+    var r = cta.getBoundingClientRect();
+    // O diâmetro cobre o canto mais distante, senão a onda morre
+    // antes de alcançar a borda quando o clique é perto de uma ponta.
+    var lado = Math.max(
+      Math.hypot(ev.clientX - r.left,  ev.clientY - r.top),
+      Math.hypot(r.right - ev.clientX, ev.clientY - r.top),
+      Math.hypot(ev.clientX - r.left,  r.bottom - ev.clientY),
+      Math.hypot(r.right - ev.clientX, r.bottom - ev.clientY)
+    ) * 2;
+
+    var onda = document.createElement("span");
+    onda.className = "onda";
+    onda.style.width = onda.style.height = lado + "px";
+    onda.style.left = (ev.clientX - r.left) + "px";
+    onda.style.top  = (ev.clientY - r.top) + "px";
+    cta.appendChild(onda);
+    onda.addEventListener("animationend", function(){ onda.remove(); });
+  });
+
   function enviando(estado){
     cta.disabled = estado;
-    cta.textContent = estado ? "Enviando" : "Reservar meu lugar";
+    ctaTexto.textContent = estado ? "Enviando" : "Reservar meu lugar";
     if (estado) cta.setAttribute("data-estado", "enviando");
     else        cta.removeAttribute("data-estado");
   }
