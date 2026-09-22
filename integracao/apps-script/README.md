@@ -69,8 +69,9 @@ var ENDPOINT = "https://script.google.com/macros/s/AKfy.../exec";
 ```
 
 Enquanto essa constante estiver vazia, o formulário valida os campos normalmente, mas ao enviar
-mostra "O formulário ainda não foi conectado" e registra o motivo no console. É proposital: uma
-página que engole o envio em silêncio perde leads sem ninguém perceber.
+responde "Estamos finalizando os últimos ajustes. Escreva para sac@zeratta.com e guardamos seu
+lugar" e registra o motivo no console. É proposital: uma página que engole o envio em silêncio
+perde leads sem ninguém perceber.
 
 ### 7. Teste antes de anunciar
 
@@ -79,7 +80,7 @@ caminhos tortos, que são os que quebram em produção:
 
 - e-mail sem arroba, para ver `Confira o e-mail`
 - o mesmo e-mail duas vezes, para ver `Este e-mail já está na lista`
-- campo vazio, para ver `Preencha todos os campos`
+- campo vazio, para ver `Preencha seu nome e seu e-mail`
 
 Apague as linhas de teste da planilha ao terminar.
 

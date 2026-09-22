@@ -13,18 +13,10 @@
  */
 
 var ABA = 'leads';
-var CABECALHO = ['timestamp', 'nome', 'email', 'canal', 'origem'];
+var CABECALHO = ['timestamp', 'nome', 'email', 'origem'];
 
 /** Aceita qualquer coisa com uma arroba e um ponto depois dela. */
 var RE_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-
-/**
- * Canais de descoberta oferecidos pelo formulário. Lista fechada,
- * e não texto livre: é o que mantém a planilha somável em vez de
- * virar uma coleção de grafias diferentes da mesma coisa.
- * Ao mexer aqui, mexa também no <select id="canal"> do index.html.
- */
-var CANAIS = ['instagram', 'tiktok', 'youtube', 'facebook', 'indicacao', 'busca', 'outro'];
 
 
 /**
@@ -75,13 +67,11 @@ function doPost(e) {
 
   var nome  = String(dados.nome  || '').trim().slice(0, 80);
   var email = String(dados.email || '').trim().toLowerCase();
-  var canal = String(dados.canal || '').trim().toLowerCase();
 
   // O cliente já validou, mas validação de cliente é conveniência e
   // não segurança: qualquer um pode chamar esta URL direto.
-  if (!nome || !email || !canal)       return json({ ok: false, erro: 'campos_obrigatorios' });
-  if (!RE_EMAIL.test(email))           return json({ ok: false, erro: 'email_invalido' });
-  if (CANAIS.indexOf(canal) === -1)    return json({ ok: false, erro: 'campos_obrigatorios' });
+  if (!nome || !email)        return json({ ok: false, erro: 'campos_obrigatorios' });
+  if (!RE_EMAIL.test(email))  return json({ ok: false, erro: 'email_invalido' });
 
   // O campo `origem` é declarado pelo cliente e por isso NÃO vale
   // como segurança: qualquer um pode forjá-lo. Serve só para separar
@@ -114,7 +104,7 @@ function doPost(e) {
       return json({ ok: false, erro: 'duplicado' });
     }
 
-    aba.appendRow([new Date().toISOString(), nome, email, canal, origem]);
+    aba.appendRow([new Date().toISOString(), nome, email, origem]);
     return json({ ok: true });
 
   } catch (err) {
@@ -127,12 +117,18 @@ function doPost(e) {
 }
 
 
-/** Procura o e-mail na coluna 3, pulando a linha de cabeçalho. */
+/**
+ * Procura o e-mail na coluna dele, pulando a linha de cabeçalho.
+ * A coluna sai do CABECALHO, e não de um número cravado aqui: com o
+ * número fixo, reordenar as colunas faria esta função comparar a
+ * coluna errada em silêncio, e o duplicado passaria despercebido.
+ */
 function jaExiste(aba, email) {
   var ultima = aba.getLastRow();
   if (ultima < 2) return false;
 
-  var coluna = aba.getRange(2, 3, ultima - 1, 1).getValues();
+  var colEmail = CABECALHO.indexOf('email') + 1;
+  var coluna = aba.getRange(2, colEmail, ultima - 1, 1).getValues();
   for (var i = 0; i < coluna.length; i++) {
     if (String(coluna[i][0]).trim().toLowerCase() === email) return true;
   }
