@@ -297,10 +297,14 @@
     position:absolute;top:calc(100% + .5rem);left:0;right:0;z-index:30;
     list-style:none;padding:.4rem;
 
-    /* Sete opções não cabem em tela baixa, e uma lista absoluta que
-       transborda estica o documento e cria barra de rolagem na
-       página inteira. Teto com rolagem própria resolve os dois. */
-    max-height:min(17.5rem,44vh);
+    /* Teto para telas baixas, onde a lista inteira não cabe e uma
+       lista absoluta que transborda estica o documento.
+       As sete opções medem 301px: o teto tem de ficar ACIMA disso,
+       senão a lista rola em toda tela para esconder poucos pixels,
+       que é pior que não ter teto. `dvh` e não `vh`, porque no
+       celular `vh` é a altura com a barra de endereço recolhida, e
+       não a que a pessoa está vendo. */
+    max-height:min(20rem,70dvh);
     overflow-y:auto;
     overscroll-behavior:contain;
 
@@ -806,6 +810,30 @@
   var aberto  = false;
   var ativo   = -1;
 
+  /* Escolhe o lado E o tamanho. Decidir só o lado não basta: quando
+     nenhum dos dois cabe (celular baixo, ou deitado), a lista vazava
+     para fora da janela e esticava o documento. Aqui ela vai para o
+     lado com mais espaço e encolhe até caber nele. */
+  function posicionar(){
+    lista.classList.remove("para-cima");
+
+    // Altura que a lista QUER ter, sem nenhum teto. Medir com teto
+    // aplicado devolve o teto, e não a necessidade real.
+    lista.style.maxHeight = "none";
+    var natural = lista.offsetHeight;
+
+    var caixa = botao.getBoundingClientRect();
+    var folga = 12;
+    var abaixo = Math.max(0, window.innerHeight - caixa.bottom - folga);
+    var acima  = Math.max(0, caixa.top - folga);
+
+    var paraCima = natural > abaixo && acima > abaixo;
+    if (paraCima) lista.classList.add("para-cima");
+
+    var disponivel = paraCima ? acima : abaixo;
+    lista.style.maxHeight = Math.min(natural, disponivel) + "px";
+  }
+
   function abrir(){
     if (aberto) return;
     aberto = true;
@@ -813,15 +841,7 @@
     botao.setAttribute("aria-expanded", "true");
     painel.classList.add("menu-aberto");
 
-    // Decide o lado antes de animar. Medir com a lista já visível é o
-    // único jeito de saber a altura real, que muda com o teto e a fonte.
-    lista.classList.remove("para-cima");
-    var caixa = botao.getBoundingClientRect();
-    var altura = lista.offsetHeight;
-    var folga = 16;
-    var cabeAbaixo = caixa.bottom + altura + folga <= window.innerHeight;
-    var cabeAcima  = caixa.top - altura - folga >= 0;
-    if (!cabeAbaixo && cabeAcima) lista.classList.add("para-cima");
+    posicionar();
 
     // Um quadro de respiro para o navegador registrar o estado
     // inicial, senão a transição não tem de onde partir.
@@ -911,6 +931,15 @@
   document.addEventListener("pointerdown", function(ev){
     if (aberto && !ev.target.closest(".campo-menu")) fechar(false);
   });
+
+  /* Recalcula enquanto está aberto. No celular a barra de endereço
+     recolhe ao rolar e muda a altura da janela no meio do caminho, o
+     que deixaria a lista medida para um espaço que não existe mais.
+     O overscroll-behavior da lista impede que rolar dentro dela role
+     a página, então este scroll é sempre da página. */
+  var reposicionar = function(){ if (aberto) posicionar(); };
+  window.addEventListener("resize", reposicionar);
+  window.addEventListener("scroll", reposicionar, { passive: true });
 
   /* ============================================================
      Validação
