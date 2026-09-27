@@ -29,7 +29,7 @@ guarda o site institucional. São produtos distintos, e este aqui é o que ocupa
 
 ```
 index.html                      a página inteira, CSS e JS embutidos
-politica-de-privacidade.html    exigida pela LGPD, linkada no rodapé
+privacy-policy.html             exigida pela LGPD e pelo GDPR, linkada no rodapé
 CNAME                           zeratta.com
 assets/images/
   embalagem-zeratta.webp        a fotografia do painel esquerdo

@@ -13,10 +13,13 @@
  */
 
 var ABA = 'leads';
-var CABECALHO = ['timestamp', 'nome', 'email', 'origem'];
+var CABECALHO = ['timestamp', 'nome', 'email', 'pais', 'origem'];
 
 /** Aceita qualquer coisa com uma arroba e um ponto depois dela. */
 var RE_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+/** Codigo ISO 3166-1 alfa-2, que e o que o formulario envia. */
+var RE_PAIS = /^[A-Z]{2}$/;
 
 
 /**
@@ -67,11 +70,13 @@ function doPost(e) {
 
   var nome  = String(dados.nome  || '').trim().slice(0, 80);
   var email = String(dados.email || '').trim().toLowerCase();
+  var pais  = String(dados.pais  || '').trim().toUpperCase();
 
   // O cliente já validou, mas validação de cliente é conveniência e
   // não segurança: qualquer um pode chamar esta URL direto.
-  if (!nome || !email)        return json({ ok: false, erro: 'campos_obrigatorios' });
-  if (!RE_EMAIL.test(email))  return json({ ok: false, erro: 'email_invalido' });
+  if (!nome || !email || !pais) return json({ ok: false, erro: 'campos_obrigatorios' });
+  if (!RE_EMAIL.test(email))    return json({ ok: false, erro: 'email_invalido' });
+  if (!RE_PAIS.test(pais))      return json({ ok: false, erro: 'campos_obrigatorios' });
 
   // O campo `origem` é declarado pelo cliente e por isso NÃO vale
   // como segurança: qualquer um pode forjá-lo. Serve só para separar
@@ -104,7 +109,7 @@ function doPost(e) {
       return json({ ok: false, erro: 'duplicado' });
     }
 
-    aba.appendRow([new Date().toISOString(), nome, email, origem]);
+    aba.appendRow([new Date().toISOString(), nome, email, pais, origem]);
     return json({ ok: true });
 
   } catch (err) {
